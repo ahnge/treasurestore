@@ -8,13 +8,25 @@ from .models import (
     ProductImage,
     ShippingAddress,
     Size,
+    ProductColor,
 )
+
+
+class ColorInline(admin.TabularInline):
+    model = ProductColor
+    extra = 1
+
+
+class ProductImageInline(admin.TabularInline):
+    model = ProductImage
+    extra = 1
 
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = ["name", "price", "created_at"]
     list_filter = ["categories"]
     search_fields = ["name", "description"]
+    inlines = [ColorInline]
 
 
 admin.site.register(Category)
