@@ -78,7 +78,7 @@ class ProductColor(models.Model):
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     guest_name = models.CharField(max_length=100, null=True, blank=True)
-    guest_email = models.EmailField(null=True, blank=True)
+    guest_phone_number = models.TextField(null=True, blank=True)
     is_guest_order = models.BooleanField(default=False)
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -93,7 +93,8 @@ class OrderItem(models.Model):
     )
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField()
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+    color = models.ForeignKey(Color, on_delete=models.SET_NULL, null=True, blank=True)
+    size = models.ForeignKey(Size, on_delete=models.SET_NULL, null=True, blank=True)
     confirm = models.BooleanField(default=False)
 
     def __str__(self):
