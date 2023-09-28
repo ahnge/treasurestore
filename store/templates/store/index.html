@@ -1,5 +1,17 @@
 {% extends "base.html" %}
-
 {% block content %}
-<h1 class="text-green-500">HOme page</h1>
+    <h1 class="text-green-500">Products Listing</h1>
+    {% for product in products %}
+        <div class="card card-compact card-bordered w-52 bg-base-100 shadow-xl">
+            <figure>
+                <img src="{{ product.main_image.image.url }}" alt="Shoes" />
+            </figure>
+            <div class="card-body">
+                <h2 class="card-title">{{ product.name }}</h2>
+                <div class="card-actions justify-end">
+                    <button class="btn btn-primary">Buy Now</button>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
 {% endblock content %}
