@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.text import slugify
 
 
 class Category(models.Model):
@@ -40,11 +41,27 @@ class Product(models.Model):
     main_image = models.ForeignKey(
         ProductImage, on_delete=models.CASCADE, blank=True, null=True
     )
+    slug = models.SlugField(unique=True, max_length=255, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        # Generate a slug from the product name
+        if not self.slug:
+            base_slug = slugify(self.name)
+            slug = base_slug
+            counter = 1
+
+            while Product.objects.filter(slug=slug).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+
+            self.slug = slug
+
+        super(Product, self).save(*args, **kwargs)
 
 
 class ProductColor(models.Model):
