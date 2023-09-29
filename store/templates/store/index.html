@@ -8,8 +8,9 @@
             </figure>
             <div class="card-body">
                 <h2 class="card-title">{{ product.name }}</h2>
+                <p>{{product.price}} MMK</p>
                 <div class="card-actions justify-end">
-                    <button class="btn btn-primary">Buy Now</button>
+                    <a href="{% url "store:product_detail" product.slug %}" class="btn btn-primary">See Detail</a>
                 </div>
             </div>
         </div>
