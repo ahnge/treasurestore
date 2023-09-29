@@ -1,50 +1,10 @@
 {% extends "base.html" %}
-{% load thumbnail %}
+{% load static %}
 {% block content %}
     <div class="flex flex-col md:flex-row max-w-5xl mx-auto py-5 md:py-32">
         <div class="relative md:flex-1">
             <!-- Product carousel -->
-            <div class="flex justify-center" id="product-images">
-                <!-- For Small screens -->
-                <div class="carousel carousel-center max-w-lg sm:hidden p-4 space-x-4 bg-neutral rounded-box">
-                    {% for product_image in product_colors.first.images.all %}
-                        <div class="carousel-item">
-                            {% thumbnail product_image.image "x256" as im %}
-                                <img src="{{ im.url }}"
-                                     loading="lazy"
-                                     class="rounded-box h-64"
-                                     {% if product_image.alt_text %} alt="{{ product_image.alt_text }}" {% else %} alt="product image" {% endif %}
-                                     width="{{ im.width }}"
-                                     height="{{ im.height }}" />
-                            {% endthumbnail %}
-                        </div>
-                    {% endfor %}
-                </div>
-                <!-- For Large screens -->
-                <div class="hidden sm:block md:flex-1 md:flex flex-col items-center">
-                    {% thumbnail product.main_image.image "x384" as im %}
-                        <img src="{{ im.url }}"
-                             srcset="{% thumbnail product.main_image.image 'x288' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}, {% thumbnail product.main_image.image 'x384' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %},"
-                             loading="lazy"
-                             class="rounded-box h-72 lg:h-96"
-                             {% if product_image.alt_text %}alt="{{ product_image.alt_text }}"{% endif %}
-                             width="{{ im.width }}"
-                             height="{{ im.height }}" />
-                    {% endthumbnail %}
-                    <div class="mt-3 flex space-x-2">
-                        {% for product_image in product_colors.first.images.all %}
-                            {% thumbnail product_image.image "x64" as im %}
-                                <img src="{{ im.url }}"
-                                     loading="lazy"
-                                     class="rounded-box h-16"
-                                     width="{{ im.width }}"
-                                     height="{{ im.height }}"
-                                     {% if product_image.alt_text %} alt="{{ product_image.alt_text }}" {% else %} alt="product image" {% endif %} />
-                            {% endthumbnail %}
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
+            <div class="flex justify-center" id="product-images">{% include "store/partials/_product_images.html" %}</div>
             <!-- Product images loading indicator -->
             <div id="product-images-indicator"
                  class="htmx-indicator bg-white flex justify-center items-center absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2">
@@ -86,24 +46,27 @@
             <div class="flex space-x-4">
                 {% for color in product_colors %}
                     {% if forloop.first %}
-                        <label class="flex items-center cursor-pointer space-x-2"
-                               hx-target="#product-images"
-                               hx-trigger="click"
-                               hx-swap="outerHTML"
-                               hx-indicator="#product-images-indicator"
-                               hx-get="{% url "store:product_images" product.id color.color %}">
+                        <label class="flex items-center cursor-pointer space-x-2">
                             <span>{{ color.color }}</span>
-                            <input type="radio" checked name="color" class="radio radio-primary" />
+                            <input type="radio"
+                                   checked
+                                   name="color"
+                                   class="radio radio-primary"
+                                   hx-target="#product-images"
+                                   hx-trigger="click"
+                                   hx-indicator="#product-images-indicator"
+                                   hx-get="{% url "store:product_images" product.id color.color %}" />
                         </label>
                     {% else %}
-                        <label class="flex items-center cursor-pointer space-x-2"
-                               hx-target="#product-images"
-                               hx-trigger="click"
-                               hx-swap="outerHTML"
-                               hx-indicator="#product-images-indicator"
-                               hx-get="{% url "store:product_images" product.id color.color %}">
+                        <label class="flex items-center cursor-pointer space-x-2">
                             <span>{{ color.color }}</span>
-                            <input type="radio" name="color" class="radio radio-primary" />
+                            <input type="radio"
+                                   name="color"
+                                   class="radio radio-primary"
+                                   hx-target="#product-images"
+                                   hx-trigger="click"
+                                   hx-indicator="#product-images-indicator"
+                                   hx-get="{% url "store:product_images" product.id color.color %}" />
                         </label>
                     {% endif %}
                 {% endfor %}
@@ -121,3 +84,6 @@
         </div>
     </div>
 {% endblock content %}
+{% block script %}
+    <script defer type="module" src="{% static "js/buttonImages.js" %}"></script>
+{% endblock script %}
