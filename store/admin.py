@@ -10,9 +10,10 @@ from .models import (
     Size,
     ProductColor,
 )
+from sorl.thumbnail.admin import AdminImageMixin
 
 
-class ProductColorInline(admin.TabularInline):
+class ProductColorInline(AdminImageMixin, admin.TabularInline):
     model = ProductColor
     extra = 1
 

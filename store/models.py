@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.text import slugify
+from sorl.thumbnail import ImageField
 
 
 class Category(models.Model):
@@ -25,7 +26,7 @@ class Size(models.Model):
 
 
 class ProductImage(models.Model):
-    image = models.ImageField(upload_to="product_images/")
+    image = ImageField(upload_to="product_images/")
     alt_text = models.CharField(max_length=200, blank=True, null=True)
 
     def __str__(self):
