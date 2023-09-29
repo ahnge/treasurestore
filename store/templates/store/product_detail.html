@@ -1,28 +1,42 @@
 {% extends "base.html" %}
 {% block content %}
     <div class="flex flex-col md:flex-row max-w-5xl mx-auto py-5 md:py-32">
-        <!-- Product carousel -->
-        <div class="flex justify-center md:flex-1">
-            <div class="carousel carousel-center max-w-lg sm:hidden p-4 space-x-4 bg-neutral rounded-box">
-                {% for product_image in product_colors.first.images.all %}
-                    <div class="carousel-item">
-                        <img src="{{ product_image.image.url }}"
-                             class="rounded-box h-64"
-                             {% if product_image.alt_text %} alt="{{ product_image.alt_text }}" {% else %} alt="product image" {% endif %} />
-                    </div>
-                {% endfor %}
-            </div>
-            <div class="hidden sm:block md:flex-1 md:flex flex-col items-center">
-                <img src="{{ product.main_image.image.url }}"
-                     class="rounded-box h-72 lg:h-96"
-                     {% if product_image.alt_text %}alt="{{ product_image.alt_text }}"{% endif %}>
-                <div class="mt-3 flex space-x-2">
+        <div class="relative md:flex-1">
+            <!-- Product carousel -->
+            <div class="flex justify-center" id="product-images">
+                <div class="carousel carousel-center max-w-lg sm:hidden p-4 space-x-4 bg-neutral rounded-box">
                     {% for product_image in product_colors.first.images.all %}
-                        <img src="{{ product_image.image.url }}"
-                             class="rounded-box h-16"
-                             {% if product_image.alt_text %} alt="{{ product_image.alt_text }}" {% else %} alt="product image" {% endif %} />
+                        <div class="carousel-item">
+                            <img src="{{ product_image.image.url }}"
+                                 class="rounded-box h-64"
+                                 {% if product_image.alt_text %} alt="{{ product_image.alt_text }}" {% else %} alt="product image" {% endif %} />
+                        </div>
                     {% endfor %}
                 </div>
+                <div class="hidden sm:block md:flex-1 md:flex flex-col items-center">
+                    <img src="{{ product.main_image.image.url }}"
+                         class="rounded-box h-72 lg:h-96"
+                         {% if product_image.alt_text %}alt="{{ product_image.alt_text }}"{% endif %}>
+                    <div class="mt-3 flex space-x-2">
+                        {% for product_image in product_colors.first.images.all %}
+                            <img src="{{ product_image.image.url }}"
+                                 class="rounded-box h-16"
+                                 {% if product_image.alt_text %} alt="{{ product_image.alt_text }}" {% else %} alt="product image" {% endif %} />
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <!-- Product images loading indicator -->
+            <div id="product-images-indicator"
+                 class="htmx-indicator bg-white flex justify-center items-center absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2">
+                <svg width="24"
+                     height="24"
+                     viewBox="0 0 24 24"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <style>.spinner_7WDj{transform-origin:center;animation:spinner_PBVY .75s linear infinite}@keyframes spinner_PBVY{100%{transform:rotate(360deg)}}</style>
+                    <path d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z" opacity=".25" />
+                    <circle class="spinner_7WDj" cx="12" cy="2.5" r="1.5" />
+                </svg>
             </div>
         </div>
         <!-- Produt Detail -->
@@ -53,12 +67,22 @@
             <div class="flex space-x-4">
                 {% for color in product_colors %}
                     {% if forloop.first %}
-                        <label class="flex items-center cursor-pointer space-x-2">
+                        <label class="flex items-center cursor-pointer space-x-2"
+                               hx-target="#product-images"
+                               hx-trigger="click"
+                               hx-swap="outerHTML"
+                               hx-indicator="#product-images-indicator"
+                               hx-get="{% url "store:product_images" product.id color.color %}">
                             <span>{{ color.color }}</span>
                             <input type="radio" checked name="color" class="radio radio-primary" />
                         </label>
                     {% else %}
-                        <label class="flex items-center cursor-pointer space-x-2">
+                        <label class="flex items-center cursor-pointer space-x-2"
+                               hx-target="#product-images"
+                               hx-trigger="click"
+                               hx-swap="outerHTML"
+                               hx-indicator="#product-images-indicator"
+                               hx-get="{% url "store:product_images" product.id color.color %}">
                             <span>{{ color.color }}</span>
                             <input type="radio" name="color" class="radio radio-primary" />
                         </label>
