@@ -9,6 +9,7 @@ from .models import (
     ShippingAddress,
     Size,
     ProductColor,
+    Graphic,
 )
 from sorl.thumbnail.admin import AdminImageMixin
 
@@ -33,3 +34,4 @@ admin.site.register(OrderItem)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(ProductImage)
 admin.site.register(ShippingAddress)
+admin.site.register(Graphic)
