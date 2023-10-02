@@ -1,7 +1,14 @@
 {% load static %}
 <div class="navbar bg-base-100">
     <div class="flex-1">
-        <a class="btn btn-ghost normal-case text-xl">Treasure Store</a>
+        <a href="{% url "store:index" %}"
+           class="btn btn-ghost normal-case mr-3 text-xl">Treasure Store</a>
+        <div class="hidden md:flex space-x-3 ">
+            <a class="cursor-pointer">Home</a>
+            <a class="cursor-pointer">Men</a>
+            <a class="cursor-pointer">Women</a>
+            <a class="cursor-pointer">Kids</a>
+        </div>
     </div>
     <div class="flex-none">
         <div class="dropdown dropdown-end">
@@ -29,25 +36,43 @@
             </div>
         </div>
         <div class="dropdown dropdown-end">
-            <label tabindex="0" class="btn btn-ghost btn-circle avatar">
-                <div class="w-10 rounded-full">
-                    <img src="{% static "images/default_profile.png" %}" />
-                </div>
+            <label tabindex="0" class="btn btn-ghost btn-circle">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     class="h-5 w-5"
+                     fill="none"
+                     viewBox="0 0 24 24"
+                     stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
+                </svg>
             </label>
             <ul tabindex="0"
                 class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
                 <li>
-                    <a class="justify-between">
-                        Profile
-                        <span class="badge">New</span>
-                    </a>
+                    <a>Profile</a>
                 </li>
-                <li>
-                    <a>Settings</a>
-                </li>
-                <li>
-                    <a>Logout</a>
-                </li>
+                <div class="md:hidden">
+                    <li>
+                        <a>Home</a>
+                    </li>
+                    <li>
+                        <a>Men</a>
+                    </li>
+                    <li>
+                        <a>Women</a>
+                    </li>
+                    <li>
+                        <a>Kids</a>
+                    </li>
+                </div>
+                {% if user.is_authenticated %}
+                    <li>
+                        <a>Logout</a>
+                    </li>
+                {% else %}
+                    <li>
+                        <a>Login/Register</a>
+                    </li>
+                {% endif %}
             </ul>
         </div>
     </div>
