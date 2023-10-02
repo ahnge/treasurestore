@@ -112,3 +112,12 @@ class ShippingAddress(models.Model):
 
     def __str__(self):
         return f"Shipping Address for Order #{self.order.pk}"
+
+
+class Graphic(models.Model):
+    name = models.TextField(max_length=64)
+    image = ImageField(upload_to="graphics")
+    alt_text = models.CharField(max_length=200, blank=True, null=True)
+
+    def __str__(self) -> str:
+        return self.image.name
