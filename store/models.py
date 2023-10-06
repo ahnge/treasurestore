@@ -120,4 +120,4 @@ class Graphic(models.Model):
     alt_text = models.CharField(max_length=200, blank=True, null=True)
 
     def __str__(self) -> str:
-        return self.image.name
+        return self.name
