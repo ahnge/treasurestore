@@ -19,7 +19,11 @@
             </div>
         </div>
         <!-- Produt Detail -->
-        <div class="p-5 md:flex-1">
+        <form hx-post="{% url "store:add_to_cart" product.id %}"
+              hx-target="#cart"
+              id="add-to-cart-form"
+              class="p-5 md:flex-1">
+            {% csrf_token %}
             <h1 class="font-bold text-lg">{{ product.name }}</h1>
             <p class="mt-2">{{ product.description }}</p>
             <!-- Sizes -->
@@ -30,12 +34,19 @@
                         {% if forloop.first %}
                             <label class="flex items-center cursor-pointer space-x-2">
                                 <span>{{ size }}</span>
-                                <input type="radio" checked name="size" class="radio radio-primary" />
+                                <input type="radio"
+                                       checked
+                                       name="size"
+                                       value="{{ size }}"
+                                       class="radio radio-primary" />
                             </label>
                         {% else %}
                             <label class="flex items-center cursor-pointer space-x-2">
                                 <span>{{ size }}</span>
-                                <input type="radio" name="size" class="radio radio-primary" />
+                                <input type="radio"
+                                       name="size"
+                                       value="{{ size }}"
+                                       class="radio radio-primary" />
                             </label>
                         {% endif %}
                     {% endfor %}
@@ -51,6 +62,7 @@
                             <input type="radio"
                                    checked
                                    name="color"
+                                   value="{{ color.color }}"
                                    class="radio radio-primary"
                                    hx-target="#product-images"
                                    hx-trigger="click"
@@ -62,6 +74,7 @@
                             <span>{{ color.color }}</span>
                             <input type="radio"
                                    name="color"
+                                   value="{{ color.color }}"
                                    class="radio radio-primary"
                                    hx-target="#product-images"
                                    hx-trigger="click"
@@ -73,10 +86,9 @@
             </div>
             <div class="mt-3 font-bold text-base">{{ product.price }} MMK</div>
             <!-- Add to cart-->
-            <div class="flex space-x-3 mt-6">
-                <div class="flex px-3 space-x-3 text-black font-bold items-center"
-                     x-data="{ count: 0 }">
-                    <span class="btn btn-primary" @click="count === 0 ? '' : count--">-</span>
+            <div class="flex space-x-3 mt-6" x-data="{ count: 1 }">
+                <div class="flex px-3 space-x-3 text-black font-bold items-center">
+                    <span class="btn btn-primary" @click="count === 1 ? '' : count--">-</span>
                     <input class="hidden"
                            type="number"
                            name="quantity"
@@ -85,11 +97,12 @@
                     <span class="text-white" x-text="count"></span>
                     <span class="btn btn-primary" @click="count++">+</span>
                 </div>
-                <button class="btn">Add to cart</button>
+                <button class="btn" type="submit" @click="count=1">Add to cart</button>
             </div>
-        </div>
+        </form>
     </div>
 {% endblock content %}
 {% block script %}
     <script defer type="module" src="{% static "js/buttonImages.js" %}"></script>
+    <script defer type="module" src="{% static "js/addToCart.js" %}"></script>
 {% endblock script %}
