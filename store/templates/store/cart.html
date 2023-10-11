@@ -18,24 +18,26 @@
                 </tr>
             </thead>
             <tbody>
-                {% for name, item in cart.items %}
-                    <tr x-data="{quantity: {{ item.quantity }}, total: {{ item.quantity }} * {{ item.price }}, deleteCartItem: () => { document.querySelector('#i{{ item.key }}').addEventListener('htmx:afterRequest', () => {document.querySelector('#i{{ item.key }}').remove()}); }}"
-                        id="i{{ item.key }}">
+                {% for key, item in cart.items %}
+                    <tr x-data="{quantity: {{ item.quantity }}, total: {{ item.quantity }} * {{ item.price }}, deleteCartItem: () => { document.querySelector('#i{{ key }}').addEventListener('htmx:afterRequest', () => {document.querySelector('#i{{ key }}').remove()}); }}"
+                        id="i{{ key }}">
                         <div x-show="quantity > 0">
-                            <td>{{ item.key }}</td>
-                            <td>{{ item.name }}</td>
+                            <td>{{ key }}</td>
+                            <td>
+                                <a class="link link-primary" href="{% url "store:product_detail" item.slug %}">{{ item.name }}</a>
+                            </td>
                             <td>{{ item.price }}</td>
                             <td>{{ item.size }}</td>
                             <td>{{ item.color }}</td>
                             <td class="flex space-x-3 items-center">
-                                <div hx-get="{% url "store:decrement_cart_item" item.key %}"
+                                <div hx-get="{% url "store:decrement_cart_item" key %}"
                                      hx-target="#cart"
                                      class="btn btn-primary"
                                      @click="quantity--; total=quantity * {{ item.price }}; quantity === 0 ? deleteCartItem() : ''">
                                     -
                                 </div>
                                 <div x-text="quantity"></div>
-                                <div hx-get="{% url "store:increment_cart_item" item.key %}"
+                                <div hx-get="{% url "store:increment_cart_item" key %}"
                                      hx-target="#cart"
                                      class="btn btn-primary"
                                      @click="quantity++; total=quantity * {{ item.price }}">+</div>

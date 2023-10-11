@@ -63,9 +63,9 @@ def add_to_cart(request, product_id):
             cart[cart_item_name]["quantity"] += int(quantity)
         else:
             cart_item = {
-                "key": cart_item_name,
                 "product_id": product_id,
                 "name": product.name,
+                "slug": slug,
                 "price": int(product.price),
                 "size": size,
                 "color": color,
