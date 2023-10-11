@@ -12,6 +12,16 @@ urlpatterns = [
     ),
     # cart
     path("cart/add/<int:product_id>/", views.add_to_cart, name="add_to_cart"),
+    path(
+        "cart/increment/<str:key>/",
+        views.increment_cart_item,
+        name="increment_cart_item",
+    ),
+    path(
+        "cart/decrement/<str:key>/",
+        views.decrement_cart_item,
+        name="decrement_cart_item",
+    ),
+    path("cart/view/", views.view_cart, name="cart_view"),
     # path('remove/<int:product_id>/', views.remove_from_cart, name='remove_from_cart'),
-    # path('view/', views.view_cart, name='cart_view'),
 ]

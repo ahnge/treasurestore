@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+{% load thumbnail %}
+{% block content %}
+    <h1>Your Cart</h1>
+    <div class="overflow-x-auto">
+        <table class="table">
+            <!-- head -->
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Size</th>
+                    <th>Color</th>
+                    <th>Quantiry</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for name, item in cart.items %}
+                    <tr x-data="{quantity: {{ item.quantity }}, total: {{ item.quantity }} * {{ item.price }}, deleteCartItem: () => { document.querySelector('#i{{ item.key }}').addEventListener('htmx:afterRequest', () => {document.querySelector('#i{{ item.key }}').remove()}); }}"
+                        id="i{{ item.key }}">
+                        <div x-show="quantity > 0">
+                            <td>{{ item.key }}</td>
+                            <td>{{ item.name }}</td>
+                            <td>{{ item.price }}</td>
+                            <td>{{ item.size }}</td>
+                            <td>{{ item.color }}</td>
+                            <td class="flex space-x-3 items-center">
+                                <div hx-get="{% url "store:decrement_cart_item" item.key %}"
+                                     hx-target="#cart"
+                                     class="btn btn-primary"
+                                     @click="quantity--; total=quantity * {{ item.price }}; quantity === 0 ? deleteCartItem() : ''">
+                                    -
+                                </div>
+                                <div x-text="quantity"></div>
+                                <div hx-get="{% url "store:increment_cart_item" item.key %}"
+                                     hx-target="#cart"
+                                     class="btn btn-primary"
+                                     @click="quantity++; total=quantity * {{ item.price }}">+</div>
+                            </td>
+                            <td x-text="total"></td>
+                        </div>
+                    </tr>
+                {% empty %}
+                    <div>No</div>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock content %}
+{% block script %}
+    <script defer type="module" src="{% static "js/cart.js" %}"></script>
+{% endblock script %}

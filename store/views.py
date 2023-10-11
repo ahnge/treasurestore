@@ -36,11 +36,13 @@ def product_images_view(request, pk, color):
 
 
 def add_to_cart(request, product_id):
-    slug = Product.objects.get(pk=product_id).slug
+    product = Product.objects.get(pk=product_id)
+    slug = product.slug
     if request.method == "POST" and request.META.get("HTTP_HX_REQUEST"):
         size = request.POST.get("size")
         color = request.POST.get("color")
         quantity = request.POST.get("quantity")
+        print(quantity)
 
         # make sure quantity is greater than 0
         if int(quantity) <= 0:
@@ -54,7 +56,10 @@ def add_to_cart(request, product_id):
             cart[cart_item_name]["quantity"] += int(quantity)
         else:
             cart_item = {
+                "key": cart_item_name,
                 "product_id": product_id,
+                "name": product.name,
+                "price": int(product.price),
                 "size": size,
                 "color": color,
                 "quantity": int(quantity),
@@ -79,6 +84,35 @@ def add_to_cart(request, product_id):
 #     return redirect("cart:cart_view")
 
 
-# def view_cart(request):
-#     cart = request.session.get("cart", {})
-#     return render(request, "cart/cart.html", {"cart": cart})
+def view_cart(request):
+    cart = request.session.get("cart", {})
+    print(cart)
+    return render(request, "store/cart.html", {"cart": cart})
+
+
+def increment_cart_item(request, key):
+    if request.method == "GET" and request.META.get("HTTP_HX_REQUEST"):
+        # Update the session
+        cart = request.session.get("cart", {})
+        if cart.get(key):
+            cart[key]["quantity"] += 1
+            request.session["cart"] = cart
+
+        return render(request, "store/htmx/cart_count.html", {"cart_count": len(cart)})
+    return redirect("store:index")
+
+
+def decrement_cart_item(request, key):
+    if request.method == "GET" and request.META.get("HTTP_HX_REQUEST"):
+        # Update the session
+        cart = request.session.get("cart", {})
+        if cart.get(key):
+            if cart[key]["quantity"] == 1:
+                cart.pop(key)
+            else:
+                cart[key]["quantity"] -= 1
+            request.session["cart"] = cart
+
+        return render(request, "store/htmx/cart_count.html", {"cart_count": len(cart)})
+
+    return redirect("store:index")
