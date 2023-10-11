@@ -8,12 +8,14 @@ def index(request):
     featured_women = Graphic.objects.get(name="featured women")
     featured_men = Graphic.objects.get(name="featured men")
     featured_kid = Graphic.objects.get(name="featured kid")
+    cart = request.session.get("cart", {})
     context = {
         "products": products,
         "featured_main": featured_main,
         "featured_women": featured_women,
         "featured_men": featured_men,
         "featured_kid": featured_kid,
+        "cart_count": len(cart),
     }
     return render(request, "store/index.html", context)
 
@@ -21,7 +23,12 @@ def index(request):
 def product_detail_view(request, slug):
     product = get_object_or_404(Product, slug=slug)
     product_colors = ProductColor.objects.filter(product=product)
-    context = {"product": product, "product_colors": product_colors}
+    cart = request.session.get("cart", {})
+    context = {
+        "product": product,
+        "product_colors": product_colors,
+        "cart_count": len(cart),
+    }
     return render(request, "store/product_detail.html", context)
 
 
@@ -86,8 +93,7 @@ def add_to_cart(request, product_id):
 
 def view_cart(request):
     cart = request.session.get("cart", {})
-    print(cart)
-    return render(request, "store/cart.html", {"cart": cart})
+    return render(request, "store/cart.html", {"cart": cart, "cart_count": len(cart)})
 
 
 def increment_cart_item(request, key):
