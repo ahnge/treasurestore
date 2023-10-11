@@ -49,7 +49,6 @@ def add_to_cart(request, product_id):
         size = request.POST.get("size")
         color = request.POST.get("color")
         quantity = request.POST.get("quantity")
-        print(quantity)
 
         # make sure quantity is greater than 0
         if int(quantity) <= 0:
@@ -61,6 +60,7 @@ def add_to_cart(request, product_id):
 
         if cart_item_name in cart:
             cart[cart_item_name]["quantity"] += int(quantity)
+            cart[cart_item_name]["total"] += int(product.price)
         else:
             cart_item = {
                 "product_id": product_id,
@@ -70,6 +70,7 @@ def add_to_cart(request, product_id):
                 "size": size,
                 "color": color,
                 "quantity": int(quantity),
+                "total": int(product.price) * int(quantity),
             }
             cart[cart_item_name] = cart_item
 
@@ -102,9 +103,19 @@ def increment_cart_item(request, key):
         cart = request.session.get("cart", {})
         if cart.get(key):
             cart[key]["quantity"] += 1
+            cart[key]["total"] += cart[key]["price"]
             request.session["cart"] = cart
 
-        return render(request, "store/htmx/cart_count.html", {"cart_count": len(cart)})
+        context = {
+            "cart_count": len(cart),
+            "cart_item_quantity": cart[key]["quantity"],
+            "key": key,
+        }
+        return render(
+            request,
+            "store/htmx/cart_item_quantity_and_total.html",
+            context,
+        )
     return redirect("store:index")
 
 
@@ -112,13 +123,25 @@ def decrement_cart_item(request, key):
     if request.method == "GET" and request.META.get("HTTP_HX_REQUEST"):
         # Update the session
         cart = request.session.get("cart", {})
+        cart_item_quantity = 0
         if cart.get(key):
             if cart[key]["quantity"] == 1:
                 cart.pop(key)
             else:
                 cart[key]["quantity"] -= 1
+                cart[key]["total"] -= cart[key]["price"]
+                cart_item_quantity = cart[key]["quantity"]
             request.session["cart"] = cart
 
-        return render(request, "store/htmx/cart_count.html", {"cart_count": len(cart)})
+        context = {
+            "cart_count": len(cart),
+            "cart_item_quantity": cart_item_quantity,
+            "key": key,
+        }
+        return render(
+            request,
+            "store/htmx/cart_item_quantity_and_total.html",
+            context,
+        )
 
     return redirect("store:index")

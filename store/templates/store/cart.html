@@ -19,31 +19,27 @@
             </thead>
             <tbody>
                 {% for key, item in cart.items %}
-                    <tr x-data="{quantity: {{ item.quantity }}, total: {{ item.quantity }} * {{ item.price }}, deleteCartItem: () => { document.querySelector('#i{{ key }}').addEventListener('htmx:afterRequest', () => {document.querySelector('#i{{ key }}').remove()}); }}"
-                        id="i{{ key }}">
-                        <div x-show="quantity > 0">
-                            <td>{{ key }}</td>
-                            <td>
-                                <a class="link link-primary" href="{% url "store:product_detail" item.slug %}">{{ item.name }}</a>
-                            </td>
-                            <td>{{ item.price }}</td>
-                            <td>{{ item.size }}</td>
-                            <td>{{ item.color }}</td>
-                            <td class="flex space-x-3 items-center">
-                                <div hx-get="{% url "store:decrement_cart_item" key %}"
-                                     hx-target="#cart"
-                                     class="btn btn-primary"
-                                     @click="quantity--; total=quantity * {{ item.price }}; quantity === 0 ? deleteCartItem() : ''">
-                                    -
-                                </div>
-                                <div x-text="quantity"></div>
-                                <div hx-get="{% url "store:increment_cart_item" key %}"
-                                     hx-target="#cart"
-                                     class="btn btn-primary"
-                                     @click="quantity++; total=quantity * {{ item.price }}">+</div>
-                            </td>
-                            <td x-text="total"></td>
-                        </div>
+                    <tr>
+                        <td>{{ key }}</td>
+                        <td>
+                            <a class="link link-primary"
+                               href="{% url "store:product_detail" item.slug %}">{{ item.name }}</a>
+                        </td>
+                        <td class="price">{{ item.price }}</td>
+                        <td>{{ item.size }}</td>
+                        <td>{{ item.color }}</td>
+                        <td class="flex space-x-3 items-center">
+                            <button hx-get="{% url "store:decrement_cart_item" key %}"
+                                    hx-target="#cart-{{ key }}-quantity"
+                                    hx-swap="innerHTML"
+                                    class="btn btn-primary decrement-cart">-</button>
+                            <div id="cart-{{ key }}-quantity">{{ item.quantity }}</div>
+                            <button hx-get="{% url "store:increment_cart_item" key %}"
+                                    hx-target="#cart-{{ key }}-quantity"
+                                    hx-swap="innerHTML"
+                                    class="btn btn-primary increment-cart">+</button>
+                        </td>
+                        <td class="total">{{ item.total }}</td>
                     </tr>
                 {% empty %}
                     <div>No</div>
@@ -52,3 +48,6 @@
         </table>
     </div>
 {% endblock content %}
+{% block script %}
+    <script defer type="module" src="{% static "js/cart.js" %}"></script>
+{% endblock script %}
