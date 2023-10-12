@@ -1,11 +1,21 @@
 {% extends "base.html" %}
 {% block content %}
-    <form action="{% url "store:your_orders" %}" method="post">
-        {% csrf_token %}
-        <input type="tel"
-               name="phone_number"
-               id="phone_number"
-               class="input input-bordered w-full max-w-xs">
-        <button type="submit" class="btn btn-primary">Check Order Status</button>
-    </form>
+    <div class="py-10">
+        <div class="card w-96 mx-auto bg-base-100 shadow-xl">
+            <div class="card-body">
+                <h2 class="card-title py-3">Phone number, por favor.</h2>
+                <form action="{% url "store:your_orders" %}" method="post">
+                    {% csrf_token %}
+                    <input type="tel"
+                           name="phone_number"
+                           placeholder="What's your phone number?"
+                           id="phone_number"
+                           class="input input-bordered w-full mb-3 ">
+                    <div type="submit" class="card-actions justify-end">
+                        <button class="btn btn-primary">Check Order Status</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 {% endblock content %}
