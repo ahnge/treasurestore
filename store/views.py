@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Product, ProductColor, Color, Graphic
+from .models import Product, ProductColor, Color, Graphic, OrderItem, Size
+from .forms import OrderForm, ShippingAddressForm
 
 
 def index(request):
@@ -79,19 +80,6 @@ def add_to_cart(request, product_id):
     return redirect("store:product_detail", slug)
 
 
-# def remove_from_cart(request, product_id):
-#     cart = request.session.get("cart", {})
-
-#     if product_id in cart:
-#         if cart[product_id]["quantity"] > 1:
-#             cart[product_id]["quantity"] -= 1
-#         else:
-#             del cart[product_id]
-
-#     request.session["cart"] = cart
-#     return redirect("cart:cart_view")
-
-
 def view_cart(request):
     cart = request.session.get("cart", {})
     return render(request, "store/cart.html", {"cart": cart, "cart_count": len(cart)})
@@ -145,3 +133,54 @@ def decrement_cart_item(request, key):
         )
 
     return redirect("store:index")
+
+
+def make_order(request):
+    cart = request.session.get("cart", {})
+    if request.method == "POST":
+        address_form = ShippingAddressForm(request.POST)
+        order_form = OrderForm(request.POST)
+        if address_form.is_valid() and order_form.is_valid():
+            # Save the order and address forms
+            order = order_form.save(commit=False)
+            if request.user.is_authenticated:
+                order.user = request.user
+            else:
+                order.is_guest_order = True
+            order.save()
+
+            address = address_form.save(commit=False)
+            address.order = order
+            address.save()
+
+            # Create order items form cart session
+            for _, cart_item in cart.items():
+                product = get_object_or_404(Product, pk=cart_item["product_id"])
+                color = get_object_or_404(Color, name=cart_item["color"])
+                size = get_object_or_404(Size, name=cart_item["size"])
+                OrderItem.objects.create(
+                    order=order,
+                    product=product,
+                    quantity=cart_item["quantity"],
+                    color=color,
+                    size=size,
+                )
+            # Empty the cart session
+            request.session["cart"] = {}
+            return render(request, "store/order_finish.html")
+    else:
+        # Ensure items are in cart session
+        if not cart:
+            return redirect("store:cart_view")
+        order_form = OrderForm()
+        address_form = ShippingAddressForm()
+
+    return render(
+        request,
+        "store/make_order.html",
+        {
+            "order_form": order_form,
+            "address_form": address_form,
+            "cart_count": len(cart),
+        },
+    )

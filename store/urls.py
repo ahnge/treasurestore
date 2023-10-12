@@ -23,5 +23,5 @@ urlpatterns = [
         name="decrement_cart_item",
     ),
     path("cart/view/", views.view_cart, name="cart_view"),
-    # path('remove/<int:product_id>/', views.remove_from_cart, name='remove_from_cart'),
+    path("make/order/", views.make_order, name="make_order"),
 ]

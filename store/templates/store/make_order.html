@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="card mx-auto max-w-xl bg-base-100 shadow-xl">
+        <div class="card-body">
+            <h2 class="card-title">Shipping Address</h2>
+            <form method="POST"
+                  action="{% url "store:make_order" %}"
+                  class="flex flex-col space-y-2">
+                {% csrf_token %}
+                {% for field in address_form %}
+                    <input type="text"
+                           name="{{ field.name }}"
+                           placeholder="{{ field.name }}"
+                           value="{{ field.value|default:'' }}"
+                           class="input input-bordered w-full">
+                {% endfor %}
+                {% if not user.is_authenticated %}
+                    {% for field in order_form %}
+                        <input type="text"
+                               name="{{ field.name }}"
+                               placeholder="{{ field.name }}"
+                               value="{{ field.value|default:'' }}"
+                               class="input input-bordered w-full">
+                    {% endfor %}
+                {% endif %}
+                <button type="submit" class="btn btn-primary">Continue</button>
+            </form>
+        </div>
+    </div>
+{% endblock content %}
