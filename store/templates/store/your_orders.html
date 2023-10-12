@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+    <div>
+        {% for order in orders %}
+            <div>{{ order.order_status }}</div>
+        {% empty %}
+            <div>You have no orders.</div>
+        {% endfor %}
+    </div>
+{% endblock content %}

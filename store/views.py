@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Product, ProductColor, Color, Graphic, OrderItem, Size
+from .models import Product, ProductColor, Color, Graphic, OrderItem, Size, Order
 from .forms import OrderForm, ShippingAddressForm
 
 
@@ -184,3 +184,18 @@ def make_order(request):
             "cart_count": len(cart),
         },
     )
+
+
+def your_orders(request):
+    if request.method == "POST":
+        phone_number = request.POST.get("phone_number")
+        print(phone_number)
+        orders = Order.objects.filter(guest_phone_number=phone_number)
+        context = {"orders": orders}
+        return render(request, "store/your_orders.html", context)
+    if request.user.is_authenticated:
+        orders = Order.objects.filter(user=request.user)
+        context = {"orders": orders}
+        return render(request, "store/your_orders.html", context)
+    else:
+        return render(request, "store/phone_number_form.html")

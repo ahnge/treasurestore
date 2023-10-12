@@ -24,4 +24,5 @@ urlpatterns = [
     ),
     path("cart/view/", views.view_cart, name="cart_view"),
     path("make/order/", views.make_order, name="make_order"),
+    path("your/orders/", views.your_orders, name="your_orders"),
 ]
