@@ -1,8 +1,19 @@
 {% extends "base.html" %}
 {% block content %}
-    <div>
+    <div class="flex flex-col space-y-3 py-10">
         {% for order in orders %}
-            <div>{{ order.order_status }}</div>
+            <div class="collapse collapse-plus bg-base-200">
+                <input type="radio"
+                       name="order-accordion"
+                       {% if forloop.first %}checked="checked"{% endif %} />
+                <div class="collapse-title ">
+                    <span class="text-base md:text-xl font-medium mr-5">OrderID: #{{ order.id }}</span>
+                    <span class="badge badge-secondary">{{ order.order_status }}</span>
+                </div>
+                <div class="collapse-content">
+                    <p>hello</p>
+                </div>
+            </div>
         {% empty %}
             <div>You have no orders.</div>
         {% endfor %}
