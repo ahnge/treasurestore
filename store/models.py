@@ -107,7 +107,6 @@ class OrderItem(models.Model):
     quantity = models.PositiveIntegerField()
     color = models.ForeignKey(Color, on_delete=models.SET_NULL, null=True, blank=True)
     size = models.ForeignKey(Size, on_delete=models.SET_NULL, null=True, blank=True)
-    confirm = models.BooleanField(default=False)
 
     def __str__(self):
         return f"Order Item #{self.pk} - {self.product.name}"
