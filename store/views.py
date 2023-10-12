@@ -189,12 +189,25 @@ def make_order(request):
 def your_orders(request):
     if request.method == "POST":
         phone_number = request.POST.get("phone_number")
-        print(phone_number)
         orders = Order.objects.filter(guest_phone_number=phone_number)
+        # Injecting the order total value into each order record
+        for order in orders:
+            order_total = 0
+            for order_item in order.order_items.all():
+                order_total += order_item.quantity * order_item.product.price
+            order.order_total = int(order_total)
+            order.save()
         context = {"orders": orders}
         return render(request, "store/your_orders.html", context)
     if request.user.is_authenticated:
         orders = Order.objects.filter(user=request.user)
+        # Injecting the order total value into each order record
+        for order in orders:
+            order_total = 0
+            for order_item in order.order_items.all():
+                order_total += order_item.quantity * order_item.product.price
+            order.order_total = int(order_total)
+            order.save()
         context = {"orders": orders}
         return render(request, "store/your_orders.html", context)
     else:

@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 {% block content %}
     <div class="flex flex-col space-y-3 py-10">
         {% for order in orders %}
@@ -6,12 +7,45 @@
                 <input type="radio"
                        name="order-accordion"
                        {% if forloop.first %}checked="checked"{% endif %} />
-                <div class="collapse-title ">
-                    <span class="text-base md:text-xl font-medium mr-5">OrderID: #{{ order.id }}</span>
+                <div class="collapse-title flex items-start space-x-4">
+                    <span class="flex flex-col">
+                        <span class="text-base md:text-xl font-medium">OrderID: #{{ order.id }}</span>
+                        <span class="text-sm">{{ order.created_at|date:"F d, Y" }}</span>
+                    </span>
                     <span class="badge badge-secondary">{{ order.order_status }}</span>
                 </div>
+                <!-- Order Items table-->
                 <div class="collapse-content">
-                    <p>hello</p>
+                    <div class="overflow-x-auto">
+                        <table class="table">
+                            <!-- head -->
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Quantity x Price</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for order_item in order.order_items.all %}
+                                    <tr class="bg-base-200 order-item">
+                                        <td class="link link-primary">
+                                            <a href="{% url "store:product_detail" order_item.product.slug %}">{{ order_item.product.name }}</a>
+                                        </td>
+                                        <td>{{ order_item.quantity }} x {{ order_item.product.price|floatformat:0 }}</td>
+                                        <td x-data="{ total: {{ order_item.quantity }} * {{ order_item.product.price }}}"
+                                            x-text="total"
+                                            class="order-item-total"></td>
+                                    </tr>
+                                {% endfor %}
+                                <tr class="bg-base-200">
+                                    <td></td>
+                                    <td>TOTAL:</td>
+                                    <td>{{ order.order_total }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         {% empty %}
