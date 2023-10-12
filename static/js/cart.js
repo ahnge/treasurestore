@@ -1,5 +1,6 @@
 const incrementCarts = document.querySelectorAll(".increment-cart");
 const decrementCarts = document.querySelectorAll(".decrement-cart");
+const allTotalTag = document.querySelector("#all-total");
 
 const updateTotal = (e, type) => {
   // Update the total value
@@ -7,16 +8,20 @@ const updateTotal = (e, type) => {
   const price =
     e.target.parentElement.parentElement.querySelector(".price").innerHTML;
   let newTotal = 0;
+  let allTotal = parseInt(allTotalTag.innerHTML);
   if (type === "increment") {
     newTotal = parseInt(totalTag.innerHTML) + parseInt(price);
+    allTotal += parseInt(price);
   } else if (type == "decrement") {
     newTotal = parseInt(totalTag.innerHTML) - parseInt(price);
+    allTotal -= parseInt(price);
     // Remove the row if cart item count becomes zero or newTotal becomes zero
     if (newTotal <= 0) {
       e.target.parentElement.parentElement.remove();
     }
   }
   totalTag.innerHTML = newTotal;
+  allTotalTag.innerHTML = allTotal;
 };
 
 incrementCarts.forEach((incrementCart) => {
@@ -44,3 +49,12 @@ decrementCarts.forEach((decrementCart) => {
     updateTotal(e, "decrement");
   });
 });
+
+// Set the all total value when initialezed
+const totals = document.querySelectorAll(".total");
+
+let allTotal = 0;
+totals.forEach((total) => {
+  allTotal += parseInt(total.innerHTML);
+});
+allTotalTag.innerHTML = allTotal;

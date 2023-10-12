@@ -7834,6 +7834,10 @@ details.collapse summary::-webkit-details-marker {
   margin-right: auto;
 }
 
+.mb-5 {
+  margin-bottom: 1.25rem;
+}
+
 .mr-3 {
   margin-right: 0.75rem;
 }
@@ -7967,6 +7971,14 @@ details.collapse summary::-webkit-details-marker {
 
 .min-h-screen {
   min-height: 100vh;
+}
+
+.min-h-\[75vh\] {
+  min-height: 75vh;
+}
+
+.min-h-\[700px\] {
+  min-height: 700px;
 }
 
 .w-5 {
@@ -9017,6 +9029,11 @@ details.collapse summary::-webkit-details-marker {
   background-color: hsl(var(--n) / var(--tw-bg-opacity));
 }
 
+.bg-primary {
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--p) / var(--tw-bg-opacity));
+}
+
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
@@ -9346,6 +9363,11 @@ details.collapse summary::-webkit-details-marker {
 .text-neutral-content {
   --tw-text-opacity: 1;
   color: hsl(var(--nc) / var(--tw-text-opacity));
+}
+
+.text-primary-content {
+  --tw-text-opacity: 1;
+  color: hsl(var(--pc) / var(--tw-text-opacity));
 }
 
 .text-white {

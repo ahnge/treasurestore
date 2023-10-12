@@ -2,50 +2,63 @@
 {% load static %}
 {% load thumbnail %}
 {% block content %}
-    <h1>Your Cart</h1>
-    <div class="overflow-x-auto">
-        <table class="table">
-            <!-- head -->
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>Name</th>
-                    <th>Price</th>
-                    <th>Size</th>
-                    <th>Color</th>
-                    <th>Quantiry</th>
-                    <th>Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for key, item in cart.items %}
+    <div class="min-h-[700px]">
+        <h1>Your Cart</h1>
+        <div class="overflow-x-auto mt-3">
+            <table class="table">
+                <!-- head -->
+                <thead>
                     <tr>
-                        <td>{{ key }}</td>
-                        <td>
-                            <a class="link link-primary"
-                               href="{% url "store:product_detail" item.slug %}">{{ item.name }}</a>
-                        </td>
-                        <td class="price">{{ item.price }}</td>
-                        <td>{{ item.size }}</td>
-                        <td>{{ item.color }}</td>
-                        <td class="flex space-x-3 items-center">
-                            <button hx-get="{% url "store:decrement_cart_item" key %}"
-                                    hx-target="#cart-{{ key }}-quantity"
-                                    hx-swap="innerHTML"
-                                    class="btn btn-primary decrement-cart">-</button>
-                            <div id="cart-{{ key }}-quantity">{{ item.quantity }}</div>
-                            <button hx-get="{% url "store:increment_cart_item" key %}"
-                                    hx-target="#cart-{{ key }}-quantity"
-                                    hx-swap="innerHTML"
-                                    class="btn btn-primary increment-cart">+</button>
-                        </td>
-                        <td class="total">{{ item.total }}</td>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Size</th>
+                        <th>Color</th>
+                        <th>Quantiry</th>
+                        <th>Total</th>
                     </tr>
-                {% empty %}
-                    <div>No</div>
-                {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {% for key, item in cart.items %}
+                        <tr>
+                            <td>
+                                <a class="link link-primary"
+                                   href="{% url "store:product_detail" item.slug %}">{{ item.name }}</a>
+                            </td>
+                            <td class="price">{{ item.price }}</td>
+                            <td>{{ item.size }}</td>
+                            <td>{{ item.color }}</td>
+                            <td class="flex space-x-3 items-center">
+                                <button hx-get="{% url "store:decrement_cart_item" key %}"
+                                        hx-target="#cart-{{ key }}-quantity"
+                                        hx-swap="innerHTML"
+                                        class="btn btn-primary decrement-cart">-</button>
+                                <div id="cart-{{ key }}-quantity">{{ item.quantity }}</div>
+                                <button hx-get="{% url "store:increment_cart_item" key %}"
+                                        hx-target="#cart-{{ key }}-quantity"
+                                        hx-swap="innerHTML"
+                                        class="btn btn-primary increment-cart">+</button>
+                            </td>
+                            <td class="total">{{ item.total }}</td>
+                        </tr>
+                    {% empty %}
+                        <div>No items in cart yet.</div>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="divider mb-5"></div>
+        <!-- All Total-->
+        <div class="flex justify-center py-4">
+            <div class="stats bg-primary text-primary-content">
+                <div class="stat">
+                    <div class="stat-title">All total in MMK</div>
+                    <div class="stat-value" id="all-total">10000</div>
+                    <div class="stat-actions">
+                        <button class="btn btn-sm">Make order</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock content %}
 {% block script %}
