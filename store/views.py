@@ -190,6 +190,7 @@ def your_orders(request):
     cart = request.session.get("cart")
     if request.method == "POST":
         phone_number = request.POST.get("phone_number")
+        phone_number = phone_number.replace(" ", "")
         orders = Order.objects.filter(
             guest_phone_number__exact=phone_number, is_guest_order=True
         )
