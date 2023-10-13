@@ -92,7 +92,7 @@ class Order(models.Model):
     order_status = models.CharField(
         max_length=30, choices=ORDER_STATUS_CHOICES, default="Pending to confirm"
     )
-    accpeted_terms = models.BooleanField(
+    accepted_terms = models.BooleanField(
         verbose_name="read and accepted terms and conditions", default=False
     )
 
