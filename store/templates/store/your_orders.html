@@ -29,8 +29,11 @@
                             <tbody>
                                 {% for order_item in order.order_items.all %}
                                     <tr class="bg-base-200 order-item">
-                                        <td class="link link-primary">
-                                            <a href="{% url "store:product_detail" order_item.product.slug %}">{{ order_item.product.name }}</a>
+                                        <td>
+                                            <a class="link link-primary"
+                                               href="{% url "store:product_detail" order_item.product.slug %}">{{ order_item.product.name }}</a>
+                                            <div>Color: {{ order_item.color.name }}</div>
+                                            <div>Size: {{ order_item.size.name }}</div>
                                         </td>
                                         <td>{{ order_item.quantity }} x {{ order_item.product.price|floatformat:0 }}</td>
                                         <td x-data="{ total: {{ order_item.quantity }} * {{ order_item.product.price }}}"
