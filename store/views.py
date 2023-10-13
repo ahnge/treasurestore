@@ -190,7 +190,9 @@ def your_orders(request):
     cart = request.session.get("cart")
     if request.method == "POST":
         phone_number = request.POST.get("phone_number")
-        orders = Order.objects.filter(guest_phone_number=phone_number)
+        orders = Order.objects.filter(
+            guest_phone_number__exact=phone_number, is_guest_order=True
+        )
         # Injecting the order total value into each order record
         for order in orders:
             order_total = 0
@@ -212,4 +214,6 @@ def your_orders(request):
         context = {"orders": orders, "cart_count": len(cart)}
         return render(request, "store/your_orders.html", context)
     else:
-        return render(request, "store/phone_number_form.html", {"cart_count": len(cart)})
+        return render(
+            request, "store/phone_number_form.html", {"cart_count": len(cart)}
+        )
