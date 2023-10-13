@@ -187,6 +187,7 @@ def make_order(request):
 
 
 def your_orders(request):
+    cart = request.session.get("cart")
     if request.method == "POST":
         phone_number = request.POST.get("phone_number")
         orders = Order.objects.filter(guest_phone_number=phone_number)
@@ -197,7 +198,7 @@ def your_orders(request):
                 order_total += order_item.quantity * order_item.product.price
             order.order_total = int(order_total)
             order.save()
-        context = {"orders": orders}
+        context = {"orders": orders, "cart_count": len(cart)}
         return render(request, "store/your_orders.html", context)
     if request.user.is_authenticated:
         orders = Order.objects.filter(user=request.user)
@@ -208,7 +209,7 @@ def your_orders(request):
                 order_total += order_item.quantity * order_item.product.price
             order.order_total = int(order_total)
             order.save()
-        context = {"orders": orders}
+        context = {"orders": orders, "cart_count": len(cart)}
         return render(request, "store/your_orders.html", context)
     else:
-        return render(request, "store/phone_number_form.html")
+        return render(request, "store/phone_number_form.html", {"cart_count": len(cart)})
