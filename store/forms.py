@@ -7,12 +7,6 @@ class OrderForm(forms.ModelForm):
         model = Order
         fields = ["guest_name", "guest_phone_number"]
 
-    def __init__(self, *args, **kwargs):
-        super(OrderForm, self).__init__(*args, **kwargs)
-
-        self.fields["guest_name"].required = True
-        self.fields["guest_phone_number"].required = True
-
     def clean_guest_phone_number(self):
         guest_phone_number = self.cleaned_data.get("guest_phone_number", "")
         guest_phone_number = guest_phone_number.replace(" ", "")
