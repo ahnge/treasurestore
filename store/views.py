@@ -137,10 +137,29 @@ def decrement_cart_item(request, key):
 
 def make_order(request):
     cart = request.session.get("cart", {})
+    order_form = OrderForm()
+    address_form = ShippingAddressForm()
     if request.method == "POST":
         address_form = ShippingAddressForm(request.POST)
         order_form = OrderForm(request.POST)
         if address_form.is_valid() and order_form.is_valid():
+            # Ensure guests provide ph no and name
+            if not request.user.is_authenticated:
+                if not order_form.cleaned_data.get(
+                    "guest_name"
+                ) or not order_form.cleaned_data.get("guest_phone_number"):
+                    print("guest error")
+                    order_form.add_error("guest_name", "This field is required")
+                    order_form.add_error("guest_phone_number", "This field is required")
+                    return render(
+                        request,
+                        "store/make_order.html",
+                        {
+                            "order_form": order_form,
+                            "address_form": address_form,
+                            "cart_count": len(cart),
+                        },
+                    )
             # Save the order and address forms
             order = order_form.save(commit=False)
             if request.user.is_authenticated:
@@ -172,8 +191,6 @@ def make_order(request):
         # Ensure items are in cart session
         if not cart:
             return redirect("store:cart_view")
-        order_form = OrderForm()
-        address_form = ShippingAddressForm()
 
     return render(
         request,
