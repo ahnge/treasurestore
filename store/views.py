@@ -239,3 +239,7 @@ def your_orders(request):
 
 def ordering_process(request):
     return render(request, "store/ordering_process.html")
+
+
+def terms(request):
+    return render(request, "store/terms.html")

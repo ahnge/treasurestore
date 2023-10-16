@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container mx-auto p-5">
+        <h1 class="mb-3">Terms and Conditions</h1>
+        <ul>
+            <li class="list-disc">
+                Order confirm ဖြစ်မှသာ ပစ္စည်းမှာယူပေးပါသည်။ <a href="{% url "store:ordering_process" %}" class="link link-secondary">Order မှာယူခြင်း လုပ်ငန်းစဉ်။</a>
+            </li>
+            <li class="list-disc">
+                Order confirm ဖြစ်ရန်အတွက် 5000 ကျပ် စရံ့ပေးသွင်းရပါမယ်။ ကျန်ငွေကတော့ အိမ်အရောင်ငွေအချေ ရပါမယ်။
+                <a href="{% url "store:your_orders" %}" class="link link-secondary">Order status ကြည့်ရန်။</a>
+            </li>
+        </ul>
+    </div>
+{% endblock content %}
