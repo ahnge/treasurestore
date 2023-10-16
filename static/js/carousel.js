@@ -5,8 +5,12 @@ let currentActiveIndex = 0;
 function scrollToNextItem() {
   currentActiveIndex = (currentActiveIndex + 1) % carouselItems.length;
   const nextItem = carouselItems[currentActiveIndex];
-  nextItem.scrollIntoView({ behavior: "smooth", block: "center" });
-  console.log("hi");
+  carousel.scrollTo({
+    top: 0,
+    left: nextItem.offsetLeft,
+    behavior: "smooth",
+  });
+  console.log("hi mom");
 }
 
 // Set the interval for auto-scrolling (e.g., every 3 seconds)
