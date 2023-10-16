@@ -28,12 +28,12 @@
                         {% if not field.name == "accepted_terms" %}
                             <div class="form-control w-full">
                                 <label class="label">
-                                    <span class="label-text">{{ field.name }}</span>
+                                    <span class="label-text">{{ field.label }}</span>
                                 </label>
                                 <input type="text"
                                        required
                                        name="{{ field.name }}"
-                                       placeholder="{{ field.name }}"
+                                       placeholder="{{ field.label }}"
                                        value="{{ field.value|default:'' }}"
                                        class="input input-bordered w-full" />
                                 <label class="label">

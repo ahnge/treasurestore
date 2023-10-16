@@ -86,8 +86,12 @@ class Order(models.Model):
     )
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    guest_name = models.CharField(max_length=100, null=True, blank=True)
-    guest_phone_number = models.TextField(null=True, blank=True)
+    guest_name = models.CharField(
+        verbose_name="What's your name?", max_length=100, null=True, blank=True
+    )
+    guest_phone_number = models.TextField(
+        verbose_name="What's your phone number?", null=True, blank=True
+    )
     is_guest_order = models.BooleanField(default=False)
     order_status = models.CharField(
         max_length=30, choices=ORDER_STATUS_CHOICES, default="Pending to confirm"
