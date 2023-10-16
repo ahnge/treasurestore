@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container mx-auto p-5">
+        <h1 class="mb-3">Ordering Process</h1>
+        <h4 class="font-bold mb-2">ပထမအဆင့်</h4>
+        <ul>
+            <li class="list-disc">မှာယူလိုသော ပစ္စည်းအား ခြင်းထဲသို့ထည့်ပါ။</li>
+            <li class="list-disc">ခြင်းကိုနှိပ်ပါ။</li>
+            <li class="list-disc">မှာယူမည် ကို နှိပ်ပါ။</li>
+            <li class="list-disc">အမည်၊ ဖုန်းနံပါတ်၊ နေရပ်လိပ်စာ တို့ကိုဖြည့်ပါ။</li>
+            <li class="list-disc">Terms and conditions များကို ဖတ်၍ လက်ခံပါ။</li>
+            <li class="list-disc">ဆက်သွားမည် ကိုနှိပ်ပါ။</li>
+        </ul>
+        <div class="alert alert-warning my-5">
+            <span>ဒုတိယအဆင့် ပီးမြောက်မှသာ ပစ္စည်းမှာယူပေးပါသည်။</span>
+        </div>
+        <h4 class="font-bold mb-2">ဒုတိယအဆင့်</h4>
+        <ul>
+            <li class="list-disc">ဒုတိယအဆင့် ပီးမြောက်ရန် initial deposit 5000 ကျပ် စရံ ပေးချေရပါမယ်။</li>
+            <li class="list-disc">Bank accounts</li>
+            <li class="list-disc">
+                Transaction note ထဲတွင် သင်၏ OrderID no ထည့်သွင်းပေးပါ။ <a href="{% url "store:your_orders" %}" class="link link-secondary">OrderID ကြည့်ရန်။</a>
+            </li>
+            <li class="list-disc">
+                Transaction Details ကို Screen-shot ရိုက်ယူပီး telegram or Facebook messenger တွင် လာပို့ပေးပါ။ ရုံးချိန်အတွင်း အမြန်ဆုံး အတည်ပြုပေးပါမယ်။
+            </li>
+            <li class="list-disc">အတည်ပြုပီးပါက သင်၏ order status သည် က မှ ခ သို့ပြောင်းသွားပါမည်။</li>
+        </ul>
+    </div>
+{% endblock content %}

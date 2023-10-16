@@ -235,3 +235,7 @@ def your_orders(request):
         return render(
             request, "store/phone_number_form.html", {"cart_count": len(cart)}
         )
+
+
+def ordering_process(request):
+    return render(request, "store/ordering_process.html")
