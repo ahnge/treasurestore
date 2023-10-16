@@ -1,5 +1,19 @@
 {% extends "base.html" %}
 {% block content %}
-    <div>Your order has been placed but has not yet confirmed. Confirm through the process.</div>
-    <a href="{% url "store:your_orders" %}">Check out your order status.</a>
+    <div class="container mx-auto py-10 min-h-[500px]">
+        <div>
+            Order မှာယူခြင်းလုပ်ငန်းစဉ် ပထမအဆင့်ပီးမြောက်ပါပီ။ <span class="text-warning">သို့သော် order confirm မဖြစ်သေးပါ။</span> Order confirm ဖြစ်မှသာ ပစ္စည်းမှာယူပေးပါသည်။ <span class="text-warning">Order confirm ဖြစ်ရန်အတွက် Order မှာယူခြင်းလုပ်ငန်းစဉ် ဒုတိယအဆင့်ကို ဆောင်ရွက်ပါ။</span>
+        </div>
+        <ul class="menu bg-base-200 w-fit rounded-box mt-5">
+            <li>
+                <a href="">Order မှာယူခြင်းလုပ်ငန်းစဉ်။</a>
+            </li>
+            <li>
+                <a href="{% url "store:your_orders" %}">Order status ကြည့်ရန်။</a>
+            </li>
+            <li>
+                <a href="">အမေးများသောမေးခွန်းများ။</a>
+            </li>
+        </ul>
+    </div>
 {% endblock content %}
