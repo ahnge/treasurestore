@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 {% block content %}
     {% include "store/partials/_graphic_images.html" %}
     <h1 class="text-neutral-content font-bold mt-3">Products Listing</h1>
@@ -20,3 +21,6 @@
         {% endfor %}
     </div>
 {% endblock content %}
+{% block script %}
+    <script defer type="module" src="{% static "js/carousel.js" %}"></script>
+{% endblock script %}

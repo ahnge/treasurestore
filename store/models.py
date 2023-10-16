@@ -137,6 +137,7 @@ class ShippingAddress(models.Model):
 class Graphic(models.Model):
     name = models.TextField(max_length=64)
     image = ImageField(upload_to="graphics")
+    link = models.TextField(max_length=155, null=True, blank=True)
     alt_text = models.CharField(max_length=200, blank=True, null=True)
 
     def __str__(self) -> str:

@@ -1,49 +1,19 @@
 {% load thumbnail %}
-<div class="lg:grid lg:grid-cols-6 lg:gap-3">
-    <div class="w-full lg:col-span-4">
-        {% thumbnail featured_main.image "1000" as im %}
-            <img src="{{ im.url }}"
-                 srcset="{% thumbnail featured_main.image '375' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}, {% thumbnail featured_main.image '680' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}"
-                 loading="lazy"
-                 alt="{{ featured_main.alt_text }}"
-                 width="{{ im.width }}"
-                 height="{{ im.height }}" />
-        {% endthumbnail %}
-    </div>
-    <div class="lg:col-span-2">
-        <div class="mt-3 lg:mt-3">
-            {% thumbnail featured_women.image "1000" as im %}
-                <img src="{{ im.url }}"
-                     srcset="{% thumbnail featured_women.image '375' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}, {% thumbnail featured_women.image '680' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}"
-                     loading="lazy"
-                     alt="{{ featured_women.alt_text }}"
-                     width="{{ im.width }}"
-                     height="{{ im.height }}" />
-            {% endthumbnail %}
-        </div>
-        <div class="flex w-full mt-3">
-            {% thumbnail featured_men.image "1000" as im %}
-                <div>
+<div class="container mx-auto">
+    <div id="carousel"
+         class="carousel carousel-center w-full p-4 space-x-4 bg-neutral rounded-box">
+        {% for graphic in graphics %}
+            <div class="carousel-item w-11/12 aspect-w-16 aspect-h-9 {% if forloop.first %}carousel-item-active{% endif %}">
+                {% thumbnail graphic.image "1000" as im %}
                     <img src="{{ im.url }}"
-                         srcset="{% thumbnail featured_men.image '375' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}, {% thumbnail featured_men.image '680' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}"
-                         class="w-full object-contain"
+                         srcset="{% thumbnail graphic.image '375' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}, {% thumbnail graphic.image '680' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}"
                          loading="lazy"
-                         alt="{{ featured_men.alt_text }}"
+                         class="object-cover w-full rounded-box"
+                         alt="{{ graphic.alt_text }}"
                          width="{{ im.width }}"
                          height="{{ im.height }}" />
-                </div>
-            {% endthumbnail %}
-            {% thumbnail featured_kid.image "1000" as im %}
-                <div>
-                    <img src="{{ im.url }}"
-                         srcset="{% thumbnail featured_kid.image '375' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}, {% thumbnail featured_kid.image '680' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}"
-                         class="w-full object-contain"
-                         loading="lazy"
-                         alt="{{ featured_kid.alt_text }}"
-                         width="{{ im.width }}"
-                         height="{{ im.height }}" />
-                </div>
-            {% endthumbnail %}
-        </div>
+                {% endthumbnail %}
+            </div>
+        {% endfor %}
     </div>
 </div>

@@ -5,17 +5,11 @@ from .forms import OrderForm, ShippingAddressForm
 
 def index(request):
     products = Product.objects.all()[:5]
-    featured_main = Graphic.objects.get(name="featured main")
-    featured_women = Graphic.objects.get(name="featured women")
-    featured_men = Graphic.objects.get(name="featured men")
-    featured_kid = Graphic.objects.get(name="featured kid")
+    graphics = Graphic.objects.all()
     cart = request.session.get("cart", {})
     context = {
         "products": products,
-        "featured_main": featured_main,
-        "featured_women": featured_women,
-        "featured_men": featured_men,
-        "featured_kid": featured_kid,
+        "graphics": graphics,
         "cart_count": len(cart),
     }
     return render(request, "store/index.html", context)
