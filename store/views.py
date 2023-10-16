@@ -204,7 +204,7 @@ def make_order(request):
 
 
 def your_orders(request):
-    cart = request.session.get("cart")
+    cart = request.session.get("cart", [])
     if request.method == "POST":
         phone_number = request.POST.get("phone_number")
         phone_number = phone_number.replace(" ", "")
