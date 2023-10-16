@@ -8,23 +8,54 @@
                   class="flex flex-col space-y-2">
                 {% csrf_token %}
                 {% for field in address_form %}
-                    <input type="text"
-                           required
-                           name="{{ field.name }}"
-                           placeholder="{{ field.name }}"
-                           value="{{ field.value|default:'' }}"
-                           class="input input-bordered w-full">
-                {% endfor %}
-                {% if not user.is_authenticated %}
-                    {% for field in order_form %}
+                    <div class="form-control w-full">
+                        <label class="label">
+                            <span class="label-text">{{ field.name }}</span>
+                        </label>
                         <input type="text"
                                required
                                name="{{ field.name }}"
                                placeholder="{{ field.name }}"
                                value="{{ field.value|default:'' }}"
-                               class="input input-bordered w-full">
+                               class="input input-bordered w-full" />
+                        <label class="label">
+                            <span class="label-text-alt text-error">{{ field.errors }}</span>
+                        </label>
+                    </div>
+                {% endfor %}
+                {% if not user.is_authenticated %}
+                    {% for field in order_form %}
+                        {% if not field.name == "accepted_terms" %}
+                            <div class="form-control w-full">
+                                <label class="label">
+                                    <span class="label-text">{{ field.name }}</span>
+                                </label>
+                                <input type="text"
+                                       required
+                                       name="{{ field.name }}"
+                                       placeholder="{{ field.name }}"
+                                       value="{{ field.value|default:'' }}"
+                                       class="input input-bordered w-full" />
+                                <label class="label">
+                                    <span class="label-text-alt text-error">{{ field.errors }}</span>
+                                </label>
+                            </div>
+                        {% endif %}
                     {% endfor %}
                 {% endif %}
+                <div class="form-control">
+                    <label class="label cursor-pointer justify-start">
+                        <input type="checkbox"
+                               name="{{ order_form.accepted_terms.name }}"
+                               class="checkbox checkbox-primary mr-4" />
+                        <span class="label-text">I have read and accept terms and conditions.</span>
+                    </label>
+                    {% if order_form.errors %}
+                        <label class="label">
+                            <div class="label-text-alt text-error">{{ order_form.errors }}</div>
+                        </label>
+                    {% endif %}
+                </div>
                 <button type="submit" class="btn btn-primary">Continue</button>
             </form>
         </div>
