@@ -10,7 +10,6 @@ function scrollToNextItem() {
     left: nextItem.offsetLeft,
     behavior: "smooth",
   });
-  console.log("hi mom");
 }
 
 // Set the interval for auto-scrolling (e.g., every 3 seconds)

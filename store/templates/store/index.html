@@ -2,12 +2,14 @@
 {% load static %}
 {% block content %}
     {% include "store/partials/_graphic_images.html" %}
-    <h1 class="text-neutral-content font-bold mt-3">Products Listing</h1>
-    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 lg:gap-4 p-4">
+    <h1 class="text-neutral-content font-bold mt-3 py-3">Products Listing</h1>
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 lg:gap-4 p-4 mb-10">
         {% for product in products %}
             <div class="card card-compact card-bordered w-full bg-base-100 shadow-xl">
-                <figure>
-                    <img src="{{ product.main_image.image.url }}" alt="Shoes" />
+                <figure class="aspect-w-3 aspect-h-4 w-full">
+                    <img class="w-full object-cover "
+                         src="{{ product.main_image.image.url }}"
+                         alt="Shoes" />
                 </figure>
                 <div class="card-body">
                     <h2 class="card-title">{{ product.name }}</h2>
