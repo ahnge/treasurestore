@@ -1,10 +1,11 @@
 {% load static %}
 <div class="navbar bg-base-100">
     <div class="flex-1">
-        <a href="{% url "store:index" %}"
-           class="btn btn-ghost normal-case mr-3 text-xl">Treasure Store</a>
+        <a href="{% url "store:index" %}" class="mr-5">
+            <img src="{% static "images/ts-logo.jpg" %}" class="w-24" alt="treasurestore logo">
+        </a>
         <div class="hidden md:flex space-x-3 ">
-            <a class="cursor-pointer">Home</a>
+            <a class="cursor-pointer" href="{% url "store:index" %}">Home</a>
             <a class="cursor-pointer">Men</a>
             <a class="cursor-pointer">Women</a>
             <a class="cursor-pointer">Kids</a>
@@ -42,7 +43,7 @@
                 </li>
                 <div class="md:hidden">
                     <li>
-                        <a>Home</a>
+                        <a href="{% url "store:index" %}">Home</a>
                     </li>
                     <li>
                         <a>Men</a>
@@ -56,11 +57,11 @@
                 </div>
                 {% if user.is_authenticated %}
                     <li>
-                        <a>Logout</a>
+                        <a href="{% url "accounts:logout" %}">Logout</a>
                     </li>
                 {% else %}
                     <li>
-                        <a>Login/Register</a>
+                        <a href="{% url "accounts:login" %}">Login/Register</a>
                     </li>
                 {% endif %}
             </ul>
