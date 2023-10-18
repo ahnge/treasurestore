@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
-from .models import CustomUser
+from .models import CustomUser, NewsLetterSubcribers
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -51,3 +51,9 @@ class CustomUserCreationForm(UserCreationForm):
         if commit:
             custom_user.save()
         return user
+
+
+class NewsLetterSubscribersForm(forms.ModelForm):
+    class Meta:
+        model = NewsLetterSubcribers
+        fields = ["email"]
