@@ -78,11 +78,17 @@ class ProductColor(models.Model):
 
 class Order(models.Model):
     ORDER_STATUS_CHOICES = (
-        ("Pending to confirm", "Pending to confirm"),
-        ("Waiting for arrival", "Waiting for arrival"),
-        ("Waiting to be delivered", "Waiting to be delivered"),
-        ("On delivery vehicle", "On delivery vehicle"),
-        ("Delivered", "Delivered"),
+        ("Initial deposit စောင့်ဆိုင်းနေသည်။", "Initial deposit စောင့်ဆိုင်းနေသည်။"),
+        ("Order မှာယူရန် စောင့်ဆိုင်းနေသည်။", "Order မှာယူရန် စောင့်ဆိုင်းနေသည်။"),
+        (
+            "Order ရောက်ရှိရန် စောင့်ဆိုင်းနေသည်။",
+            "Order ရောက်ရှိရန် စောင့်ဆိုင်းနေသည်။",
+        ),
+        ("Order ပေးပို့ရန် စောင့်ဆိုင်းနေသည်။", "Order ပေးပို့ရန် စောင့်ဆိုင်းနေသည်။"),
+        (
+            "Order ပစ္စည်း delivery ကားပေါ်တွင်ရောက်ရှိပါပြီ။",
+            "Order ပစ္စည်း delivery ကားပေါ်တွင်ရောက်ရှိပါပြီ။",
+        ),
     )
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
@@ -94,7 +100,9 @@ class Order(models.Model):
     )
     is_guest_order = models.BooleanField(default=False)
     order_status = models.CharField(
-        max_length=30, choices=ORDER_STATUS_CHOICES, default="Pending to confirm"
+        max_length=100,
+        choices=ORDER_STATUS_CHOICES,
+        default="Initial deposit စောင့်ဆိုင်းနေသည်။",
     )
     accepted_terms = models.BooleanField(
         verbose_name="read and accepted terms and conditions", default=False
