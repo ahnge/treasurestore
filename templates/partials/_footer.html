@@ -36,13 +36,17 @@
             </a>
         </div>
     </nav>
-    <form>
+    <form hx-post="{% url "accounts:subcribe_newsletter" %}"
+          hx-target="#messages">
+        {% csrf_token %}
         <header class="footer-title">
             Newsletter
         </header>
         <fieldset class="form-control w-80">
             <div class="relative">
-                <input type="text"
+                <input type="email"
+                       name="email"
+                       required
                        placeholder="username@site.com"
                        class="input-xs sm:input input-bordered w-full pr-16" />
                 <button class="btn-xs sm:btn-md btn-primary absolute top-0 right-0 rounded-l-none">Subscribe</button>

@@ -7911,6 +7911,22 @@ details.collapse summary::-webkit-details-marker {
   top: 50%;
 }
 
+.top-3 {
+  top: 0.75rem;
+}
+
+.-left-1\/2 {
+  left: -50%;
+}
+
+.bottom-3 {
+  bottom: 0.75rem;
+}
+
+.right-3 {
+  right: 0.75rem;
+}
+
 .isolate {
   isolation: isolate;
 }
@@ -7921,6 +7937,18 @@ details.collapse summary::-webkit-details-marker {
 
 .z-\[1\] {
   z-index: 1;
+}
+
+.z-10 {
+  z-index: 10;
+}
+
+.z-50 {
+  z-index: 50;
+}
+
+.z-\[999\] {
+  z-index: 999;
 }
 
 .float-right {
@@ -8125,6 +8153,10 @@ details.collapse summary::-webkit-details-marker {
   height: 18rem;
 }
 
+.h-6 {
+  height: 1.5rem;
+}
+
 .min-h-\[500px\] {
   min-height: 500px;
 }
@@ -8170,6 +8202,10 @@ details.collapse summary::-webkit-details-marker {
   width: 100%;
 }
 
+.w-6 {
+  width: 1.5rem;
+}
+
 .max-w-3xl {
   max-width: 48rem;
 }
@@ -8200,6 +8236,10 @@ details.collapse summary::-webkit-details-marker {
 
 .shrink {
   flex-shrink: 1;
+}
+
+.shrink-0 {
+  flex-shrink: 0;
 }
 
 .flex-grow {
@@ -8241,6 +8281,11 @@ details.collapse summary::-webkit-details-marker {
 
 .-translate-y-1\/2 {
   --tw-translate-y: -50%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.translate-x-1\/2 {
+  --tw-translate-x: 50%;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
@@ -9321,6 +9366,10 @@ details.collapse summary::-webkit-details-marker {
   fill: currentColor;
 }
 
+.stroke-current {
+  stroke: currentColor;
+}
+
 .object-contain {
   -o-object-fit: contain;
      object-fit: contain;
@@ -9385,6 +9434,11 @@ details.collapse summary::-webkit-details-marker {
 .py-5 {
   padding-top: 1.25rem;
   padding-bottom: 1.25rem;
+}
+
+.px-4 {
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
 .pr-16 {
