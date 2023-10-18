@@ -3,7 +3,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 from django.shortcuts import render, redirect
 
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, NewsLetterSubscribersForm
+from .models import NewsLetterSubcribers
 
 
 def register_view(request):
@@ -47,4 +48,31 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
+    return redirect("store:index")
+
+
+def newsletter_subscribe(request):
+    if request.META.get("HTTP_HX_REQUEST") and request.method == "POST":
+        form = NewsLetterSubscribersForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data["email"]
+            if not NewsLetterSubcribers.objects.filter(email=email).exists():
+                form.save()
+                return render(
+                    request,
+                    "accounts/htmx/newsletter-message.html",
+                    {"alert": "success", "message": "Success"},
+                )
+            else:
+                return render(
+                    request,
+                    "accounts/htmx/newsletter-message.html",
+                    {"message": "Already subcribed!", "alert": "error"},
+                )
+        return render(
+            request,
+            "accounts/htmx/newsletter-message.html",
+            {"message": "Error!", "alert": "error"},
+        )
+
     return redirect("store:index")
