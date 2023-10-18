@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-    <div class="container mx-auto p-5">
+    <div class="container mx-auto p-5 pb-10">
         <h1 class="mb-3">Ordering Process</h1>
         <h4 class="font-bold mb-2">ပထမအဆင့်</h4>
         <ul>
@@ -24,7 +24,17 @@
             <li class="list-disc">
                 Transaction Details ကို Screen-shot ရိုက်ယူပီး telegram or Facebook messenger တွင် လာပို့ပေးပါ။ ရုံးချိန်အတွင်း အမြန်ဆုံး အတည်ပြုပေးပါမယ်။
             </li>
-            <li class="list-disc">အတည်ပြုပီးပါက သင်၏ order status သည် က မှ ခ သို့ပြောင်းသွားပါမည်။</li>
+            <li class="list-disc">
+                အတည်ပြုပီးပါက သင်၏ order status သည် <span class="badge badge-secondary">Initial deposit စောင့်ဆိုင်းနေသည်။</span> မှ <span class="badge badge-secondary">Order မှာယူရန် စောင့်ဆိုင်းနေသည်။</span> သို့ပြောင်းသွားပါမည်။
+            </li>
+        </ul>
+        <ul class="mt-10">
+            <li>
+                <a href="" class="link link-secondary">ဆက်လက်ဝယ်ယူမည်။</a>
+            </li>
+            <li>
+                <a href="{% url "store:your_orders" %}" class="link link-secondary">Order status ကြည့်မယ်။</a>
+            </li>
         </ul>
     </div>
 {% endblock content %}

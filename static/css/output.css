@@ -8038,6 +8038,10 @@ details.collapse summary::-webkit-details-marker {
   margin-top: 1.5rem;
 }
 
+.mt-10 {
+  margin-top: 2.5rem;
+}
+
 .box-border {
   box-sizing: border-box;
 }
