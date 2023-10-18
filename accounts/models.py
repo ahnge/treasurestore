@@ -10,3 +10,10 @@ class CustomUser(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.phone_number}"
+
+
+class NewsLetterSubcribers(models.Model):
+    email = models.EmailField(max_length=128)
+
+    def __str__(self):
+        return f"{self.email}"
