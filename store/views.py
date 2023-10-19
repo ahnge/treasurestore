@@ -237,3 +237,7 @@ def ordering_process(request):
 
 def terms(request):
     return render(request, "store/terms.html")
+
+
+def order_status(request):
+    return render(request, "store/order_status.html")
