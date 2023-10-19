@@ -6,9 +6,10 @@
         </a>
         <div class="hidden md:flex space-x-3 ">
             <a class="cursor-pointer" href="{% url "store:index" %}">Home</a>
-            <a class="cursor-pointer">Men</a>
-            <a class="cursor-pointer">Women</a>
-            <a class="cursor-pointer">Kids</a>
+            <a href="{% url "store:product_listing" 'men' %}" class="cursor-pointer">Men</a>
+            <a href="{% url "store:product_listing" 'women' %}"
+               class="cursor-pointer">Women</a>
+            <a href="{% url "store:product_listing" 'kid' %}" class="cursor-pointer">Kids</a>
         </div>
     </div>
     <div class="flex-none">
@@ -49,13 +50,13 @@
                         <a href="{% url "store:index" %}">Home</a>
                     </li>
                     <li>
-                        <a>Men</a>
+                        <a href="{% url "store:product_listing" 'men' %}" >Men</a>
                     </li>
                     <li>
-                        <a>Women</a>
+                        <a href="{% url "store:product_listing" 'women' %}" >Women</a>
                     </li>
                     <li>
-                        <a>Kids</a>
+                        <a href="{% url "store:product_listing" 'kid' %}" >Kids</a>
                     </li>
                 </div>
                 {% if user.is_authenticated %}
