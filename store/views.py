@@ -1,5 +1,14 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Product, ProductColor, Color, Graphic, OrderItem, Size, Order
+from .models import (
+    Product,
+    ProductColor,
+    Color,
+    Graphic,
+    OrderItem,
+    Size,
+    Order,
+    Category,
+)
 from .forms import OrderForm, ShippingAddressForm
 
 
@@ -241,3 +250,10 @@ def terms(request):
 
 def order_status(request):
     return render(request, "store/order_status.html")
+
+
+def product_listing(request, category):
+    cat = get_object_or_404(Category, name=category)
+    products = Product.objects.filter(categories=cat)
+    context = {"products": products, "category_name": category}
+    return render(request, "store/products.html", context)

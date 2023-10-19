@@ -1,0 +1,25 @@
+{% load thumbnail %}
+<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 lg:gap-4 p-4 mb-10">
+    {% for product in products %}
+        <div class="card card-compact card-bordered w-full bg-base-100 shadow-xl">
+            <figure class="aspect-w-3 aspect-h-4 w-full">
+                {% thumbnail product.main_image.image "300" as im %}
+                    <img src="{{ im.url }}"
+                         loading="lazy"
+                         class="w-full object-cover "
+                         {% if product.main_image.alt_text %} alt="{{ product.main_image.alt_text }}" {% else %} alt="{{ product.name }} image" {% endif %}
+                         width="{{ im.width }}"
+                         height="{{ im.height }}" />
+                {% endthumbnail %}
+            </figure>
+            <div class="card-body">
+                <h2 class="card-title">{{ product.name }}</h2>
+                <p>{{ product.price }} MMK</p>
+                <div class="card-actions justify-end">
+                    <a href="{% url "store:product_detail" product.slug %}"
+                       class="btn btn-primary">See Detail</a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>

@@ -28,4 +28,5 @@ urlpatterns = [
     path("ordering-process/", views.ordering_process, name="ordering_process"),
     path("terms-and-conditions/", views.terms, name="terms"),
     path("order-status/", views.order_status, name="order_status"),
+    path("category/<str:category>/", views.product_listing, name="product_listing"),
 ]
