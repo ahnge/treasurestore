@@ -12,10 +12,11 @@ class Category(models.Model):
 
 
 class Color(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, default="white")
+    hex = models.CharField(max_length=7, default="#000000")
 
     def __str__(self):
-        return self.name
+        return f"{self.name} - {self.hex}"
 
 
 class Size(models.Model):

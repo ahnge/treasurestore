@@ -31,57 +31,33 @@
                 <h2 class="font-bold text-lg mt-2">Sizes</h2>
                 <div class="flex space-x-4">
                     {% for size in product.sizes.all %}
-                        {% if forloop.first %}
-                            <label class="flex items-center cursor-pointer space-x-2">
-                                <span>{{ size }}</span>
-                                <input type="radio"
-                                       checked
-                                       name="size"
-                                       value="{{ size }}"
-                                       class="radio radio-primary" />
-                            </label>
-                        {% else %}
-                            <label class="flex items-center cursor-pointer space-x-2">
-                                <span>{{ size }}</span>
-                                <input type="radio"
-                                       name="size"
-                                       value="{{ size }}"
-                                       class="radio radio-primary" />
-                            </label>
-                        {% endif %}
+                        <label class="size rounded-full bg-accent hover:bg-accent-focus hover:border-black h-7 w-7 flex justify-center cursor-pointer border-2 items-center text-accent-content {% if forloop.first %}bg-accent-focus border-black {% else %}border-transparent{% endif %}">
+                            <span class="">{{ size }}</span>
+                            <input type="radio"
+                                   {% if forloop.first %}checked{% endif %}
+                                   name="size"
+                                   value="{{ size }}"
+                                   class="radio radio-primary hidden" />
+                        </label>
                     {% endfor %}
                 </div>
             {% endif %}
             <!-- Colors -->
             <h2 class="font-bold text-lg mt-2">Colors</h2>
             <div class="flex space-x-4">
-                {% for color in product_colors %}
-                    {% if forloop.first %}
-                        <label class="flex items-center cursor-pointer space-x-2">
-                            <span>{{ color.color }}</span>
-                            <input type="radio"
-                                   checked
-                                   name="color"
-                                   value="{{ color.color }}"
-                                   class="radio radio-primary"
-                                   hx-target="#product-images"
-                                   hx-trigger="click"
-                                   hx-indicator="#product-images-indicator"
-                                   hx-get="{% url "store:product_images" product.id color.color %}" />
-                        </label>
-                    {% else %}
-                        <label class="flex items-center cursor-pointer space-x-2">
-                            <span>{{ color.color }}</span>
-                            <input type="radio"
-                                   name="color"
-                                   value="{{ color.color }}"
-                                   class="radio radio-primary"
-                                   hx-target="#product-images"
-                                   hx-trigger="click"
-                                   hx-indicator="#product-images-indicator"
-                                   hx-get="{% url "store:product_images" product.id color.color %}" />
-                        </label>
-                    {% endif %}
+                {% for product_color in product_colors %}
+                    <label style="background-color: {{ product_color.color.hex }}"
+                           class="color-label rounded-full border-2 cursor-pointer p-3 hover:border-accent {% if forloop.first %}border-accent {% else %} border-transparent{% endif %} h-7 w-7 flex justify-center items-center">
+                        <input type="radio"
+                               {% if forloop.first %}checked{% endif %}
+                               name="color"
+                               value="{{ product_color.color.name }}"
+                               class="radio radio-primary hidden"
+                               hx-target="#product-images"
+                               hx-trigger="click"
+                               hx-indicator="#product-images-indicator"
+                               hx-get="{% url "store:product_images" product.id product_color.color.name %}" />
+                    </label>
                 {% endfor %}
             </div>
             <div class="mt-3 font-bold text-base">{{ product.price }} MMK</div>
@@ -105,4 +81,5 @@
 {% block script %}
     <script defer type="module" src="{% static "js/buttonImages.js" %}"></script>
     <script defer type="module" src="{% static "js/addToCart.js" %}"></script>
+    <script defer type="module" src="{% static "js/sizesAndColors.js" %}"></script>
 {% endblock script %}
