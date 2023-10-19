@@ -2,7 +2,7 @@
 {% load static %}
 {% load thumbnail %}
 {% block content %}
-    {% include "store/partials/_graphic_images.html" %}
+    {% include "store/partials/_carousel.html" %}
     <h1 class="text-neutral-content font-bold mt-3 py-3">New Arrivals</h1>
     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 lg:gap-4 p-4 mb-10">
         {% for product in products %}

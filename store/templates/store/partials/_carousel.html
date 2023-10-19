@@ -1,9 +1,9 @@
 {% load thumbnail %}
 <div class="container mx-auto">
     <div id="carousel"
-         class="carousel carousel-center w-full p-4 space-x-4 bg-neutral rounded-box">
+         class="carousel carousel-center w-full p-4 space-x-4 bg-transparent rounded-box">
         {% for graphic in graphics %}
-            <div class="carousel-item w-11/12 aspect-w-16 aspect-h-9 {% if forloop.first %}carousel-item-active{% endif %}">
+            <div class="carousel-item w-full aspect-w-16 aspect-h-9 {% if forloop.first %}carousel-item-active{% endif %}">
                 {% thumbnail graphic.image "1000" as im %}
                     <img src="{{ im.url }}"
                          srcset="{% thumbnail graphic.image '375' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}, {% thumbnail graphic.image '680' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}"
