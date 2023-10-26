@@ -445,41 +445,41 @@ html {
 }
 
 :root {
-  color-scheme: dark;
-  --pf: 210 64% 24%;
-  --sf: 200 13% 48%;
-  --af: 13 80% 53%;
-  --nf: 213 14% 9%;
-  --b2: 0 0% 6%;
-  --b3: 0 0% 0%;
-  --bc: 145 0% 80%;
-  --pc: 219 26% 86%;
-  --sc: 200 7% 12%;
-  --ac: 14 40% 13%;
-  --nc: 214 3% 81%;
-  --inc: 210 64% 91%;
-  --suc: 141 16% 12%;
-  --wac: 37 30% 13%;
-  --erc: 11 59% 89%;
-  --animation-btn: 0.25s;
-  --animation-input: .2s;
+  color-scheme: light;
+  --pf: 229 96% 57%;
+  --sf: 215 26% 52%;
+  --af: 154 49% 53%;
+  --nf: 233 27% 6%;
+  --b2: 0 0% 93%;
+  --b3: 0 0% 86%;
+  --in: 198 93% 60%;
+  --su: 158 64% 52%;
+  --wa: 43 96% 56%;
+  --er: 0 91% 71%;
+  --pc: 243 100% 94%;
+  --sc: 216 13% 13%;
+  --ac: 151 21% 13%;
+  --inc: 198 100% 12%;
+  --suc: 158 100% 10%;
+  --wac: 43 100% 11%;
+  --erc: 0 100% 14%;
   --btn-text-case: uppercase;
-  --btn-focus-scale: 0.95;
   --border-btn: 1px;
   --tab-border: 1px;
   --tab-radius: 0.5rem;
-  --p: 210 64% 31%;
-  --s: 200 13% 55%;
-  --a: 13 80% 60%;
-  --n: 213 14% 16%;
-  --b1: 0 0% 13%;
-  --in: 199 100% 42%;
-  --su: 144 31% 56%;
-  --wa: 39 64% 60%;
-  --er: 6 56% 43%;
+  --p: 229 96% 64%;
+  --s: 215 26% 59%;
+  --a: 154 49% 60%;
+  --n: 233 27% 13%;
+  --nc: 210 38% 95%;
+  --b1: 0 0% 100%;
+  --bc: 233 27% 13%;
   --rounded-box: 0.25rem;
   --rounded-btn: .125rem;
   --rounded-badge: .125rem;
+  --animation-btn: 0;
+  --animation-input: 0;
+  --btn-focus-scale: 1;
 }
 
 *, ::before, ::after {
@@ -8157,10 +8157,6 @@ details.collapse summary::-webkit-details-marker {
   min-height: 100vh;
 }
 
-.w-11\/12 {
-  width: 91.666667%;
-}
-
 .w-24 {
   width: 6rem;
 }
@@ -9197,6 +9193,10 @@ details.collapse summary::-webkit-details-marker {
   border-top-width: 1px;
 }
 
+.border-b-2 {
+  border-bottom-width: 2px;
+}
+
 .border-solid {
   border-style: solid;
 }
@@ -9275,13 +9275,13 @@ details.collapse summary::-webkit-details-marker {
   background-color: hsl(var(--p) / var(--tw-bg-opacity));
 }
 
+.bg-transparent {
+  background-color: transparent;
+}
+
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-}
-
-.bg-transparent {
-  background-color: transparent;
 }
 
 .decoration-slice {
@@ -9508,6 +9508,14 @@ details.collapse summary::-webkit-details-marker {
   vertical-align: super;
 }
 
+.font-sans {
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+.font-mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
 .text-base {
   font-size: 1rem;
   line-height: 1.5rem;
@@ -9523,14 +9531,14 @@ details.collapse summary::-webkit-details-marker {
   line-height: 1.25rem;
 }
 
-.text-xs {
-  font-size: 0.75rem;
-  line-height: 1rem;
-}
-
 .text-xl {
   font-size: 1.25rem;
   line-height: 1.75rem;
+}
+
+.text-xs {
+  font-size: 0.75rem;
+  line-height: 1rem;
 }
 
 .font-bold {
@@ -9609,6 +9617,10 @@ details.collapse summary::-webkit-details-marker {
   font-variant-numeric: var(--tw-ordinal) var(--tw-slashed-zero) var(--tw-numeric-figure) var(--tw-numeric-spacing) var(--tw-numeric-fraction);
 }
 
+.tracking-wide {
+  letter-spacing: 0.025em;
+}
+
 .text-\[\#336699\]\/\[\.35\] {
   color: rgb(51 102 153 / .35);
 }
@@ -9648,6 +9660,11 @@ details.collapse summary::-webkit-details-marker {
   color: hsl(var(--pc) / var(--tw-text-opacity));
 }
 
+.text-secondary-content {
+  --tw-text-opacity: 1;
+  color: hsl(var(--sc) / var(--tw-text-opacity));
+}
+
 .text-warning {
   --tw-text-opacity: 1;
   color: hsl(var(--wa) / var(--tw-text-opacity));
@@ -9656,16 +9673,6 @@ details.collapse summary::-webkit-details-marker {
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
-}
-
-.text-secondary {
-  --tw-text-opacity: 1;
-  color: hsl(var(--s) / var(--tw-text-opacity));
-}
-
-.text-secondary-content {
-  --tw-text-opacity: 1;
-  color: hsl(var(--sc) / var(--tw-text-opacity));
 }
 
 .underline {

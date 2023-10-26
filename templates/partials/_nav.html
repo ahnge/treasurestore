@@ -1,15 +1,18 @@
 {% load static %}
-<div class="navbar bg-base-100">
+<div class="navbar">
     <div class="flex-1">
         <a href="{% url "store:index" %}" class="mr-5">
             <img src="{% static "images/ts-logo.jpg" %}" class="w-24" alt="treasurestore logo">
         </a>
-        <div class="hidden md:flex space-x-3 ">
-            <a class="cursor-pointer" href="{% url "store:index" %}">Home</a>
-            <a href="{% url "store:product_listing" 'men' %}" class="cursor-pointer">Men</a>
-            <a href="{% url "store:product_listing" 'women' %}"
-               class="cursor-pointer">Women</a>
-            <a href="{% url "store:product_listing" 'kid' %}" class="cursor-pointer">Kids</a>
+        <div class="hidden md:flex space-x-3 uppercase font-mono tracking-wide">
+            <a class="cursor-pointer hover:border-black border-b-2 border-transparent"
+               href="{% url "store:index" %}">Home</a>
+            <a href="{% url "store:shop" %}"
+               class="cursor-pointer hover:border-black border-b-2 border-transparent">Shop</a>
+            <a href=""
+               class="cursor-pointer hover:border-black border-b-2 border-transparent">Blog</a>
+            <a href=""
+               class="cursor-pointer hover:border-black border-b-2 border-transparent">Contact</a>
         </div>
     </div>
     <div class="flex-none">
@@ -38,25 +41,19 @@
                 </svg>
             </label>
             <ul tabindex="0"
-                class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-                <li>
-                    <a href="{% url "store:your_orders" %}">Order Status</a>
-                </li>
-                <li>
-                    <a href="{% url "store:ordering_process" %}">Order Process</a>
-                </li>
+                class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 uppercase">
                 <div class="md:hidden">
                     <li>
                         <a href="{% url "store:index" %}">Home</a>
                     </li>
                     <li>
-                        <a href="{% url "store:product_listing" 'men' %}" >Men</a>
+                        <a href="{% url "store:shop" %}" class="cursor-pointer">Shop</a>
                     </li>
                     <li>
-                        <a href="{% url "store:product_listing" 'women' %}" >Women</a>
+                        <a href="" class="cursor-pointer">Blog</a>
                     </li>
                     <li>
-                        <a href="{% url "store:product_listing" 'kid' %}" >Kids</a>
+                        <a href="" class="cursor-pointer">Contact</a>
                     </li>
                 </div>
                 {% if user.is_authenticated %}
@@ -68,6 +65,12 @@
                         <a href="{% url "accounts:login" %}">Login/Register</a>
                     </li>
                 {% endif %}
+                <li>
+                    <a href="{% url "store:your_orders" %}">Order Status</a>
+                </li>
+                <li>
+                    <a href="{% url "store:ordering_process" %}">Order Process</a>
+                </li>
             </ul>
         </div>
     </div>

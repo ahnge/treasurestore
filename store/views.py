@@ -252,8 +252,7 @@ def order_status(request):
     return render(request, "store/order_status.html")
 
 
-def product_listing(request, category):
-    cat = get_object_or_404(Category, name=category)
-    products = Product.objects.filter(categories=cat)
-    context = {"products": products, "category_name": category}
+def shop(request):
+    products = Product.objects.all()
+    context = {"products": products}
     return render(request, "store/products.html", context)
