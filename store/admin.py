@@ -21,7 +21,7 @@ class ProductColorInline(AdminImageMixin, admin.TabularInline):
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = ["name", "price", "created_at"]
-    list_filter = ["categories"]
+    list_filter = ["sub_category"]
     search_fields = ["name", "description"]
     inlines = [ProductColorInline]
 
