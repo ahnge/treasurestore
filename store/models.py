@@ -13,7 +13,9 @@ class Category(models.Model):
 
 class SubCategory(models.Model):
     name = models.CharField(max_length=100)
-    parent_category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
+    parent_category = models.ForeignKey(
+        Category, on_delete=models.SET_NULL, null=True, related_name="sub_categories"
+    )
 
     def __str__(self):
         return f"{self.name} - {self.parent_category.name}"
