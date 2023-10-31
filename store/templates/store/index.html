@@ -3,9 +3,6 @@
 {% load thumbnail %}
 {% block content %}
     {% include "store/partials/_carousel.html" %}
-    <h1 class="text-neutral-content font-bold mt-3 py-3">New Arrivals</h1>
-    {% include "store/partials/_products_grid.html" %}
-    <a class="btn btn-primary w-fit flex mx-auto mb-10">See all</a>
 {% endblock content %}
 {% block script %}
     <script defer type="module" src="{% static "js/carousel.js" %}"></script>
