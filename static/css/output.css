@@ -10118,6 +10118,18 @@ details.collapse summary::-webkit-details-marker {
   transition: background-color 0.2s ease-out;
 }
 
+.htmx-indicator {
+  display: none;
+}
+
+.htmx-request #filter-indicator {
+  display: inline;
+}
+
+.htmx-request#filter-indicator {
+  display: inline;
+}
+
 @media (hover:hover) {
   .table .hover\:hover:hovertr:hover,
   .table .hover\:hover:hovertr:nth-child(even):hover {

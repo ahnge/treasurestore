@@ -1,4 +1,5 @@
 <form {% if category and sub_category %} hx-get="{% url "store:specific_shop" category sub_category %}" {% else %} hx-get="{% url "store:shop" %}" {% endif %}
+      hx-indicator="#filter-indicator"
       hx-target="#products"
       class="py-7 px-5">
     <!-- Categories -->
@@ -53,7 +54,7 @@
                placeholder="Min">
         <input type="number"
                name="max"
-               id="min"
+               id="max"
                class="input input-accent w-24"
                placeholder="Max">
     </div>
@@ -81,5 +82,8 @@
         {% endfor %}
     </div>
     <div class="divider"></div>
-    <button type="submit" class="btn btn-accent">Apply</button>
+    <button type="submit" class="btn btn-accent">
+        <span id="filter-indicator" class="htmx-indicator loading loading-spinner"></span>
+        Apply
+    </button>
 </form>
