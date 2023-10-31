@@ -29,4 +29,9 @@ urlpatterns = [
     path("terms-and-conditions/", views.terms, name="terms"),
     path("order-status/", views.order_status, name="order_status"),
     path("shop/", views.shop, name="shop"),
+    path(
+        "shop/<str:category>/<str:sub_category>/",
+        views.specific_shop,
+        name="specific_shop",
+    ),
 ]

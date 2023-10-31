@@ -8,6 +8,7 @@ from .models import (
     Size,
     Order,
     Category,
+    SubCategory,
 )
 from .forms import OrderForm, ShippingAddressForm
 
@@ -253,21 +254,105 @@ def order_status(request):
 
 
 def shop(request):
-    if request.META.get("HTTP_HX_REQUEST"):
-        print(request.GET)
-        products = Product.objects.all()
-        context = {
-            "products": products,
-        }
-        return render(request, "store/partials/_products_grid.html", context)
     products = Product.objects.all()
     categories = Category.objects.all()
     colors = Color.objects.all()
     sizes = Size.objects.all()
+
+    if request.META.get("HTTP_HX_REQUEST"):
+        colors = request.GET.getlist("color")
+        min_price = request.GET.get("min")
+        max_price = request.GET.get("max")
+        sizes = request.GET.getlist("size")
+
+        # Start with a base queryset
+        filtered_products = products
+
+        # Filter by colors
+        if colors:
+            filtered_products = filtered_products.filter(
+                productcolor__color__name__in=colors
+            )
+
+        # Filter by minimum price
+        if min_price:
+            filtered_products = filtered_products.filter(price__gte=int(min_price))
+
+        # Filter by maximum price
+        if max_price:
+            filtered_products = filtered_products.filter(price__lte=int(max_price))
+
+        # Filter by size
+        if sizes and len(sizes) > 0 and sizes[0] != "":
+            filtered_products = filtered_products.filter(sizes__name__in=sizes)
+
+        context = {
+            "products": filtered_products,
+        }
+
+        return render(request, "store/partials/_products_grid.html", context)
+
     context = {
         "products": products,
         "categories": categories,
         "colors": colors,
         "sizes": sizes,
+    }
+    return render(request, "store/shop.html", context)
+
+
+def specific_shop(request, category, sub_category):
+    products = Product.objects.all()
+    categories = Category.objects.all()
+    colors = Color.objects.all()
+    sizes = Size.objects.all()
+
+    # Start with a base queryset
+    filtered_products = products
+
+    # Filter products based on category and sub category
+    category_instance = Category.objects.get(name=category)
+    sub_category_instance = SubCategory.objects.get(
+        name=sub_category, parent_category=category_instance
+    )
+    filtered_products = filtered_products.filter(sub_category=sub_category_instance)
+
+    if request.META.get("HTTP_HX_REQUEST"):
+        colors = request.GET.getlist("color")
+        min_price = request.GET.get("min")
+        max_price = request.GET.get("max")
+        sizes = request.GET.getlist("size")
+
+        # Filter by colors
+        if colors:
+            filtered_products = filtered_products.filter(
+                productcolor__color__name__in=colors
+            )
+
+        # Filter by minimum price
+        if min_price:
+            filtered_products = filtered_products.filter(price__gte=int(min_price))
+
+        # Filter by maximum price
+        if max_price:
+            filtered_products = filtered_products.filter(price__lte=int(max_price))
+
+        # Filter by size
+        if sizes and len(sizes) > 0 and sizes[0] != "":
+            filtered_products = filtered_products.filter(sizes__name__in=sizes)
+
+        context = {
+            "products": filtered_products,
+        }
+
+        return render(request, "store/partials/_products_grid.html", context)
+
+    context = {
+        "products": filtered_products,
+        "categories": categories,
+        "colors": colors,
+        "sizes": sizes,
+        "category": category,
+        "sub_category": sub_category,
     }
     return render(request, "store/shop.html", context)

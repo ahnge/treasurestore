@@ -1,21 +1,21 @@
-<form hx-get="{% url "store:shop" %}"
+<form {% if category and sub_category %} hx-get="{% url "store:specific_shop" category sub_category %}" {% else %} hx-get="{% url "store:shop" %}" {% endif %}
       hx-target="#products"
       class="py-7 px-5">
     <!-- Categories -->
     <h3 class="text-lg font-bold">Categories</h3>
     <div class="join join-vertical w-full mt-5">
-        {% for category in categories %}
+        <a href="{% url "store:shop" %}"
+           class="collapse-title py-0 pl-0 text-xl font-medium uppercase text-black font-mono min-h-0">All</a>
+        {% for cat in categories %}
             <div class="collapse">
                 <input type="radio"
                        name="my-category-accordion"
-                       {% if forloop.first %}checked="checked"{% endif %} />
-                <div class="collapse-title py-0 pl-0 text-xl font-medium uppercase text-black font-mono min-h-0">
-                    {{ category.name }}
-                </div>
+                       {% if cat.name == category %}checked="checked"{% endif %} />
+                <div class="collapse-title py-0 pl-0 text-xl font-medium uppercase text-black font-mono min-h-0">{{ cat.name }}</div>
                 <div class="collapse-content">
-                    {% for sub_category in category.sub_categories.all %}
-                        <a href=""
-                           class="text-secondary capitalize hover:underline cursor-pointer block">{{ sub_category.name }}</a>
+                    {% for sub_cat in cat.sub_categories.all %}
+                        <a href="{% url "store:specific_shop" cat.name sub_cat.name %}"
+                           class="text-secondary capitalize hover:underline cursor-pointer block {% if sub_cat.name == sub_category and cat.name == category %}underline{% endif %}">{{ sub_cat.name }}</a>
                     {% endfor %}
                 </div>
             </div>
@@ -26,13 +26,17 @@
     <h3 class="text-lg font-bold">Color</h3>
     <div class="flex flex-wrap space-x-4 w-full mt-5">
         {% for color in colors %}
-            <div class="form-control" x-data="{ selected: false }">
-                <label class="w-8 h-8 border border-base cursor-pointer"
+            <div class="form-control">
+                <label class="w-8 h-8 cursor-pointer border-base"
                        style="background-color: {{ color.hex }};
                               color: {{ color.hex }}"
-                       :class="selected ? 'border-black border-2' : ''"
-                       @click="selected = !selected; console.log('clicked')">
-                    <input type="checkbox" class="hidden" name="color"  value="{{ color.name }}" />
+                       x-data="{ selected: false }"
+                       :class="selected ? 'border-4' : 'border-2'">
+                    <input @click="selected = !selected"
+                           type="checkbox"
+                           class="hidden"
+                           name="color"
+                           value="{{ color.name }}" />
                 </label>
             </div>
         {% endfor %}
