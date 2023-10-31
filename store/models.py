@@ -22,7 +22,7 @@ class SubCategory(models.Model):
 
 
 class Color(models.Model):
-    name = models.CharField(max_length=50, default="white")
+    name = models.CharField(max_length=50, default="black")
     hex = models.CharField(max_length=7, default="#000000")
 
     def __str__(self):
