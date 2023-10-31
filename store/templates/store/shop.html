@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block content %}
+    <!-- Title -->
+    <div class="shop-bg py-14 px-10 text-white my-2">
+        <h1 class="text-7xl font-bold mb-3">Shop</h1>
+        <div class="uppercase">
+            home / <span class="underline">shop</span>
+        </div>
+    </div>
+    <!-- -->
+    <div x-data="{ open: false }">
+        <!-- Mobile Filter drawer content -->
+        <div class="fixed z-20 inset-0 bg-black/60 backdrop-blur" x-show="open">
+            <div class="bg-white w-fit h-full overflow-y-scroll"
+                 @click.outside="open = false">
+                <!-- Filter -->
+                {% include "store/partials/_filter.html" %}
+            </div>
+        </div>
+        <!-- Shop page -->
+        <div class="py-3">
+            <div class="grid gap-3 lg:gap-4 grid-cols-3 lg:grid-cols-4">
+                <!-- Filter Component -->
+                <div class="hidden md:block col-span-1">
+                    <!-- Filter -->
+                    {% include "store/partials/_filter.html" %}
+                </div>
+                <div class="col-span-3 md:col-span-2 lg:col-span-3">
+                    <!-- Mobile Filter Opener and Sort by row -->
+                    <div class="flex justify-between items-center py-3 md:py-5">
+                        <!-- Mobile Filter drawer opner -->
+                        <div class="btn btn-outline md:hidden" @click="open = !open">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 fill="none"
+                                 viewBox="0 0 24 24"
+                                 stroke-width="1.5"
+                                 stroke="currentColor"
+                                 class="w-6 h-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 01-.659 1.591l-5.432 5.432a2.25 2.25 0 00-.659 1.591v2.927a2.25 2.25 0 01-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 00-.659-1.591L3.659 7.409A2.25 2.25 0 013 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0112 3z" />
+                            </svg>
+                            filter
+                        </div>
+                        <!-- Products count -->
+                        <div class="text-secondary hidden md:block">
+                            We found <span class="text-base-content">138 products</span> for you.
+                        </div>
+                        <!-- Sort By Drop down -->
+                        <div class="dropdown dropdown-end">
+                            <label tabindex="0" class="btn m-1">
+                                Sort by
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     viewBox="0 0 20 20"
+                                     fill="currentColor"
+                                     class="w-5 h-5">
+                                    <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+                                </svg>
+                            </label>
+                            <ul tabindex="0"
+                                class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+                                <li>
+                                    <a>Item 1</a>
+                                </li>
+                                <li>
+                                    <a>Item 2</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Products -->
+                    <div id="products">{% include "store/partials/_products_grid.html" %}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

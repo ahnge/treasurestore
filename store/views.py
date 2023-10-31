@@ -253,6 +253,21 @@ def order_status(request):
 
 
 def shop(request):
+    if request.META.get("HTTP_HX_REQUEST"):
+        print(request.GET)
+        products = Product.objects.all()
+        context = {
+            "products": products,
+        }
+        return render(request, "store/partials/_products_grid.html", context)
     products = Product.objects.all()
-    context = {"products": products}
-    return render(request, "store/products.html", context)
+    categories = Category.objects.all()
+    colors = Color.objects.all()
+    sizes = Size.objects.all()
+    context = {
+        "products": products,
+        "categories": categories,
+        "colors": colors,
+        "sizes": sizes,
+    }
+    return render(request, "store/shop.html", context)
