@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.db.models import F
 from .models import (
     Product,
     ProductColor,
@@ -259,14 +260,22 @@ def shop(request):
     colors = Color.objects.all()
     sizes = Size.objects.all()
 
+    # Start with a base queryset
+    filtered_products = products
+
+    # Sorting by price
+    sort_option = request.GET.get("sort")
+    print(sort_option)
+    if sort_option == "high_price":
+        filtered_products = filtered_products.order_by("-price")
+    elif sort_option == "low_price":
+        filtered_products = filtered_products.order_by("price")
+
     if request.META.get("HTTP_HX_REQUEST"):
         colors = request.GET.getlist("color")
         min_price = request.GET.get("min")
         max_price = request.GET.get("max")
         sizes = request.GET.getlist("size")
-
-        # Start with a base queryset
-        filtered_products = products
 
         # Filter by colors
         if colors:
@@ -293,7 +302,7 @@ def shop(request):
         return render(request, "store/partials/_products_grid.html", context)
 
     context = {
-        "products": products,
+        "products": filtered_products,
         "categories": categories,
         "colors": colors,
         "sizes": sizes,
@@ -316,6 +325,13 @@ def specific_shop(request, category, sub_category):
         name=sub_category, parent_category=category_instance
     )
     filtered_products = filtered_products.filter(sub_category=sub_category_instance)
+
+    # Sorting by price
+    sort_option = request.GET.get("sort")
+    if sort_option == "high_price":
+        filtered_products = filtered_products.order_by("-price")
+    elif sort_option == "low_price":
+        filtered_products = filtered_products.order_by("price")
 
     if request.META.get("HTTP_HX_REQUEST"):
         colors = request.GET.getlist("color")
