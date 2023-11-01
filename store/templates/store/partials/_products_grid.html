@@ -1,7 +1,7 @@
 {% load thumbnail %}
 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4 mb-10">
     {% for product in products %}
-        <div class="card card-compact card-bordered w-full bg-base-100 shadow-xl">
+        <a href="{% url "store:product_detail" product.slug %}" class="card card-compact card-bordered w-full bg-base-100 shadow-xl cursor-pointer">
             <figure class="aspect-w-3 aspect-h-4 w-full">
                 {% thumbnail product.main_image.image "300" as im %}
                     <img src="{{ im.url }}"
@@ -13,13 +13,10 @@
                 {% endthumbnail %}
             </figure>
             <div class="card-body">
-                <h2 class="card-title">{{ product.name }}</h2>
-                <p>{{ product.price }} MMK</p>
-                <div class="card-actions justify-end">
-                    <a href="{% url "store:product_detail" product.slug %}"
-                       class="btn btn-primary">See Detail</a>
-                </div>
+                <h2 class="text-black/70">{{ product.name }}
+                </h2>
+                <p class="font-bold">{{ product.price }} MMK</p>
             </div>
-        </div>
+        </a>
     {% endfor %}
 </div>
