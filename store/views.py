@@ -271,41 +271,42 @@ def shop(request):
     elif sort_option == "low_price":
         filtered_products = filtered_products.order_by("price")
 
-    if request.META.get("HTTP_HX_REQUEST"):
-        colors = request.GET.getlist("color")
-        min_price = request.GET.get("min")
-        max_price = request.GET.get("max")
-        sizes = request.GET.getlist("size")
+    colors_to_filter = request.GET.getlist("color")
+    min_price = request.GET.get("min")
+    max_price = request.GET.get("max")
+    sizes_to_filter = request.GET.getlist("size")
 
-        # Filter by colors
-        if colors:
-            filtered_products = filtered_products.filter(
-                productcolor__color__name__in=colors
-            )
+    # Filter by colors
+    if colors_to_filter:
+        filtered_products = filtered_products.filter(
+            productcolor__color__name__in=colors_to_filter
+        )
 
-        # Filter by minimum price
-        if min_price:
-            filtered_products = filtered_products.filter(price__gte=int(min_price))
+    # Filter by minimum price
+    if min_price:
+        filtered_products = filtered_products.filter(price__gte=int(min_price))
 
-        # Filter by maximum price
-        if max_price:
-            filtered_products = filtered_products.filter(price__lte=int(max_price))
+    # Filter by maximum price
+    if max_price:
+        filtered_products = filtered_products.filter(price__lte=int(max_price))
 
-        # Filter by size
-        if sizes and len(sizes) > 0 and sizes[0] != "":
-            filtered_products = filtered_products.filter(sizes__name__in=sizes)
+    # Filter by size
+    if sizes_to_filter and len(sizes_to_filter) > 0 and sizes_to_filter[0] != "":
+        filtered_products = filtered_products.filter(sizes__name__in=sizes_to_filter)
 
-        context = {
-            "products": filtered_products,
-        }
-
-        return render(request, "store/partials/_products_grid.html", context)
+    # Ensure that the result set contains only unique products
+    filtered_products = filtered_products.distinct()
 
     context = {
         "products": filtered_products,
         "categories": categories,
         "colors": colors,
         "sizes": sizes,
+        "min_price": min_price,
+        "max_price": max_price,
+        "colors_to_filter": colors_to_filter,
+        "sizes_to_filter": sizes_to_filter,
+        "sort_option": sort_option,
     }
     return render(request, "store/shop.html", context)
 
@@ -333,35 +334,31 @@ def specific_shop(request, category, sub_category):
     elif sort_option == "low_price":
         filtered_products = filtered_products.order_by("price")
 
-    if request.META.get("HTTP_HX_REQUEST"):
-        colors = request.GET.getlist("color")
-        min_price = request.GET.get("min")
-        max_price = request.GET.get("max")
-        sizes = request.GET.getlist("size")
+    colors_to_filter = request.GET.getlist("color")
+    min_price = request.GET.get("min")
+    max_price = request.GET.get("max")
+    sizes_to_filter = request.GET.getlist("size")
 
-        # Filter by colors
-        if colors:
-            filtered_products = filtered_products.filter(
-                productcolor__color__name__in=colors
-            )
+    # Filter by colors
+    if colors_to_filter:
+        filtered_products = filtered_products.filter(
+            productcolor__color__name__in=colors_to_filter
+        )
 
-        # Filter by minimum price
-        if min_price:
-            filtered_products = filtered_products.filter(price__gte=int(min_price))
+    # Filter by minimum price
+    if min_price:
+        filtered_products = filtered_products.filter(price__gte=int(min_price))
 
-        # Filter by maximum price
-        if max_price:
-            filtered_products = filtered_products.filter(price__lte=int(max_price))
+    # Filter by maximum price
+    if max_price:
+        filtered_products = filtered_products.filter(price__lte=int(max_price))
 
-        # Filter by size
-        if sizes and len(sizes) > 0 and sizes[0] != "":
-            filtered_products = filtered_products.filter(sizes__name__in=sizes)
+    # Filter by size
+    if sizes_to_filter and len(sizes_to_filter) > 0 and sizes_to_filter[0] != "":
+        filtered_products = filtered_products.filter(sizes__name__in=sizes_to_filter)
 
-        context = {
-            "products": filtered_products,
-        }
-
-        return render(request, "store/partials/_products_grid.html", context)
+    # Ensure that the result set contains only unique products
+    filtered_products = filtered_products.distinct()
 
     context = {
         "products": filtered_products,
@@ -370,5 +367,10 @@ def specific_shop(request, category, sub_category):
         "sizes": sizes,
         "category": category,
         "sub_category": sub_category,
+        "min_price": min_price,
+        "max_price": max_price,
+        "colors_to_filter": colors_to_filter,
+        "sizes_to_filter": sizes_to_filter,
+        "sort_option": sort_option,
     }
     return render(request, "store/shop.html", context)

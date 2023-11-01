@@ -1,11 +1,9 @@
-<form {% if category and sub_category %} hx-get="{% url "store:specific_shop" category sub_category %}" {% else %} hx-get="{% url "store:shop" %}" {% endif %}
-      hx-indicator="#filter-indicator"
-      hx-target="#products"
+<form {% if category and sub_category %} target="{% url "store:specific_shop" category sub_category %}" {% else %} target="{% url "store:shop" %}" {% endif %}
       class="py-7 px-5">
     <!-- Categories -->
     <h3 class="text-lg font-bold">Categories</h3>
     <div class="join join-vertical w-full mt-5">
-        <a href="{% url "store:shop" %}"
+        <a href="{% url "store:shop" %}?sort={{ sort_option }}"
            class="collapse-title py-0 pl-0 text-xl font-medium uppercase text-black font-mono min-h-0">All</a>
         {% for cat in categories %}
             <div class="collapse">
@@ -15,7 +13,7 @@
                 <div class="collapse-title py-0 pl-0 text-xl font-medium uppercase text-black font-mono min-h-0">{{ cat.name }}</div>
                 <div class="collapse-content">
                     {% for sub_cat in cat.sub_categories.all %}
-                        <a href="{% url "store:specific_shop" cat.name sub_cat.name %}"
+                        <a href="{% url "store:specific_shop" cat.name sub_cat.name %}?sort={{ sort_option }}"
                            class="text-secondary capitalize hover:underline cursor-pointer block {% if sub_cat.name == sub_category and cat.name == category %}underline{% endif %}">{{ sub_cat.name }}</a>
                     {% endfor %}
                 </div>
@@ -31,10 +29,11 @@
                 <label class="w-8 h-8 cursor-pointer border-base"
                        style="background-color: {{ color.hex }};
                               color: {{ color.hex }}"
-                       x-data="{ selected: false }"
+                       {% if color.name in colors_to_filter %} x-data="{ selected: true }" {% else %} x-data="{ selected: false }" {% endif %}
                        :class="selected ? 'border-4' : 'border-2'">
                     <input @click="selected = !selected"
                            type="checkbox"
+                           {% if color.name in colors_to_filter %}checked="checked"{% endif %}
                            class="hidden"
                            name="color"
                            value="{{ color.name }}" />
@@ -47,16 +46,8 @@
     <h3 class="text-lg font-bold">Filter by price</h3>
     <div class="text-base mt-2">Price</div>
     <div class="flex space-x-3 mt-3">
-        <input type="number"
-               name="min"
-               id="min"
-               class="input input-accent w-24"
-               placeholder="Min">
-        <input type="number"
-               name="max"
-               id="max"
-               class="input input-accent w-24"
-               placeholder="Max">
+        <input type="number" name="min" id="min" class="input input-accent w-24" {% if min_price %}value={{ min_price }}{% endif %} placeholder="Min" />
+        <input type="number" name="max" id="max" class="input input-accent w-24" {% if max_price %}value={{ max_price }}{% endif %} placeholder="Max" />
     </div>
     <div class="divider"></div>
     <!-- Sizes -->
@@ -65,7 +56,7 @@
         <div class="form-control">
             <label class="cursor-pointer label justify-start space-x-3">
                 <input type="checkbox"
-                       checked="checked"
+                       {% if not sizes_to_filter %}checked="checked"{% endif %}
                        class="checkbox"
                        name="size"
                        value="" />
@@ -75,14 +66,23 @@
         {% for size in sizes %}
             <div class="form-control">
                 <label class="cursor-pointer label justify-start space-x-3">
-                    <input type="checkbox" class="checkbox" name="size" value="{{ size.name }}" />
+                    <input type="checkbox"
+                           class="checkbox"
+                           name="size"
+                           value="{{ size.name }}"
+                           {% if size.name in sizes_to_filter %}checked="checked"{% endif %} />
                     <span class="label-text text-base">{{ size.name }}</span>
                 </label>
             </div>
         {% endfor %}
     </div>
     <div class="divider"></div>
-    <button type="submit" class="btn btn-accent">
+    <!-- Hidden sort option -->
+    <input id="filter-form-sort"
+           type="hidden"
+           name="sort"
+           {% if sort_option %}value="{{ sort_option }}"{% endif %}>
+    <button type="submit" id="filter-form-submit-btn" class="btn btn-accent">
         <span id="filter-indicator" class="htmx-indicator loading loading-spinner"></span>
         Apply
     </button>
