@@ -7923,6 +7923,10 @@ details.collapse summary::-webkit-details-marker {
   top: 50%;
 }
 
+.top-28 {
+  top: 7rem;
+}
+
 .isolate {
   isolation: isolate;
 }
