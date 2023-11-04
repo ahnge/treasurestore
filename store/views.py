@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.db.models import F
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+
 from .models import (
     Product,
     ProductColor,
@@ -265,7 +266,6 @@ def shop(request):
 
     # Sorting by price
     sort_option = request.GET.get("sort")
-    print(sort_option)
     if sort_option == "high_price":
         filtered_products = filtered_products.order_by("-price")
     elif sort_option == "low_price":
@@ -283,11 +283,11 @@ def shop(request):
         )
 
     # Filter by minimum price
-    if min_price:
+    if min_price and min_price != "None":
         filtered_products = filtered_products.filter(price__gte=int(min_price))
 
     # Filter by maximum price
-    if max_price:
+    if max_price and max_price != "None":
         filtered_products = filtered_products.filter(price__lte=int(max_price))
 
     # Filter by size
@@ -296,6 +296,29 @@ def shop(request):
 
     # Ensure that the result set contains only unique products
     filtered_products = filtered_products.distinct()
+
+    # Set the number of items per page
+    items_per_page = 20
+
+    # Create a Paginator instance
+    paginator = Paginator(filtered_products, items_per_page)
+
+    # Get the current page number from the request
+    page = request.GET.get("page") or 1
+
+    try:
+        # Get the products for the requested page
+        filtered_products = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, display the first page
+        filtered_products = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g., 9999), display the last page
+        filtered_products = paginator.page(paginator.num_pages)
+
+    filtered_products.adjusted_elided_pages = paginator.get_elided_page_range(
+        page, on_each_side=1, on_ends=0
+    )
 
     context = {
         "products": filtered_products,
@@ -346,11 +369,11 @@ def specific_shop(request, category, sub_category):
         )
 
     # Filter by minimum price
-    if min_price:
+    if min_price and min_price != "None":
         filtered_products = filtered_products.filter(price__gte=int(min_price))
 
     # Filter by maximum price
-    if max_price:
+    if max_price and max_price != "None":
         filtered_products = filtered_products.filter(price__lte=int(max_price))
 
     # Filter by size
@@ -359,6 +382,29 @@ def specific_shop(request, category, sub_category):
 
     # Ensure that the result set contains only unique products
     filtered_products = filtered_products.distinct()
+
+    # Set the number of items per page
+    items_per_page = 20
+
+    # Create a Paginator instance
+    paginator = Paginator(filtered_products, items_per_page)
+
+    # Get the current page number from the request
+    page = request.GET.get("page") or 1
+
+    try:
+        # Get the products for the requested page
+        filtered_products = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, display the first page
+        filtered_products = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g., 9999), display the last page
+        filtered_products = paginator.page(paginator.num_pages)
+
+    filtered_products.adjusted_elided_pages = paginator.get_elided_page_range(
+        page, on_each_side=1, on_ends=0
+    )
 
     context = {
         "products": filtered_products,

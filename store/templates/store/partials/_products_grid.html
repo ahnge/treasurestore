@@ -1,7 +1,8 @@
 {% load thumbnail %}
 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4 mb-10">
     {% for product in products %}
-        <a href="{% url "store:product_detail" product.slug %}" class="card card-compact card-bordered w-full bg-base-100 shadow-xl cursor-pointer">
+        <a href="{% url "store:product_detail" product.slug %}"
+           class="card card-compact card-bordered w-full bg-base-100 shadow-xl cursor-pointer">
             <figure class="aspect-w-3 aspect-h-4 w-full">
                 {% thumbnail product.main_image.image "300" as im %}
                     <img src="{{ im.url }}"
@@ -13,10 +14,34 @@
                 {% endthumbnail %}
             </figure>
             <div class="card-body">
-                <h2 class="text-black/70">{{ product.name }}
-                </h2>
+                <h2 class="text-black/70">{{ product.name }}</h2>
                 <p class="font-bold">{{ product.price }} MMK</p>
             </div>
         </a>
     {% endfor %}
+</div>
+<!-- Pagination -->
+<div class="flex justify-center mb-10">
+    <ul class="join">
+        {% if products.has_previous %}
+            <a class="join-item btn btn-sm md:btn-md"
+               href="?page=1&min={{ min_price }}&max={{ max_price }}&sort={{ sort_option }}{% if colors_to_filter %}{% for c in colors_to_filter %}&color={{ c }}{% endfor %}{% endif %}{% if sizes_to_filter %}{% for s in sizes_to_filter %}&size={{ s }}{% endfor %}{% endif %}">&laquo;</a>
+            <a class="join-item btn btn-sm md:btn-md"
+               href="?page={{ products.previous_page_number }}&min={{ min_price }}&max={{ max_price }}&sort={{ sort_option }}{% if colors_to_filter %}{% for c in colors_to_filter %}&color={{ c }}{% endfor %}{% endif %}{% if sizes_to_filter %}{% for s in sizes_to_filter %}&size={{ s }}{% endfor %}{% endif %}">&lsaquo;</a>
+        {% endif %}
+        {% for i in products.adjusted_elided_pages %}
+            {% if i == products.paginator.ELLIPSIS %}
+                <span class="join-item btn btn-sm md:btn-md">{{ i }}</span>
+            {% else %}
+                <a class="join-item btn btn-sm md:btn-md {% if products.number == i %}btn-active{% endif %}"
+                   href="?page={{ i }}&min={{ min_price }}&max={{ max_price }}&sort={{ sort_option }}{% if colors_to_filter %}{% for c in colors_to_filter %}&color={{ c }}{% endfor %}{% endif %}{% if sizes_to_filter %}{% for s in sizes_to_filter %}&size={{ s }}{% endfor %}{% endif %}">{{ i }}</a>
+            {% endif %}
+        {% endfor %}
+        {% if products.has_next %}
+            <a class="join-item btn btn-sm md:btn-md"
+               href="?page={{ products.next_page_number }}&min={{ min_price }}&max={{ max_price }}&sort={{ sort_option }}{% if colors_to_filter %}{% for c in colors_to_filter %}&color={{ c }}{% endfor %}{% endif %}{% if sizes_to_filter %}{% for s in sizes_to_filter %}&size={{ s }}{% endfor %}{% endif %}">&rsaquo;</a>
+            <a class="join-item btn btn-sm md:btn-md"
+               href="?page={{ products.paginator.num_pages }}&min={{ min_price }}&max={{ max_price }}&sort={{ sort_option }}{% if colors_to_filter %}{% for c in colors_to_filter %}&color={{ c }}{% endfor %}{% endif %}{% if sizes_to_filter %}{% for s in sizes_to_filter %}&size={{ s }}{% endfor %}{% endif %}">&raquo;</a>
+        {% endif %}
+    </ul>
 </div>
