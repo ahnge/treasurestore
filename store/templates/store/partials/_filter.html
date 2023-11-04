@@ -1,5 +1,7 @@
-<form {% if category and sub_category %} target="{% url "store:specific_shop" category sub_category %}" {% else %} target="{% url "store:shop" %}" {% endif %}
-      class="py-7 px-5">
+<form {% if category and sub_category %} action="{% url "store:specific_shop" category sub_category %}" {% else %} action="{% url "store:shop" %}" {% endif %}
+      class="py-7 px-5"
+      method="GET"
+      >
     <!-- Categories -->
     <h3 class="text-lg font-bold">Categories</h3>
     <div class="join join-vertical w-full mt-5">
